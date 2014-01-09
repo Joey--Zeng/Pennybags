@@ -1,4 +1,6 @@
 Pennybags
 =========
 
-asdf
+Johnathan Yan
+Joey Zeng
+Hyunwoo Jeung
