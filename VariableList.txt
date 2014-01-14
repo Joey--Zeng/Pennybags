@@ -4,7 +4,8 @@ Player
 =========
 - String name
 - String shape
-- ArrayList<int>() propertyOwned
+- ArrayList<Integer>() propertyOwned
+- ArrayList<String>() cards // get out of jail card
 - int money
 - int turnsInJail
 - int pos
