@@ -4,7 +4,7 @@ Player
 =========
 - String name
 - String shape
-- int[] propertyOwned
+- ArrayList() propertyOwned
 - int money
 - int turnsInJail
 - int pos
@@ -32,7 +32,9 @@ Tile ABSTRACT [Action/Property/FreeParking]
 
 *Action [Chance/Community Chest/Jail/LuxuryTax]
 =========
+- String type
 inherits variables from Tile Super Class
 
+http://www.math.yorku.ca/~zabrocki/math2042/Monopoly/prices.html
 
 
