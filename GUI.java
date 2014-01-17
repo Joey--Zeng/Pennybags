@@ -25,7 +25,7 @@ public class GUI extends JFrame{
 		//create button panel
 		panel = new JPanel();
 		//panel.setPreferredSize(new Dimension(200,600));
-		panel.setLayout(new GridLayout(4,0,0,15)); // first number is number of elements
+		panel.setLayout(new GridLayout(5,0,0,15)); // first number is number of elements
 		
 		//MENU CREATION
 		//========================================================================================================
@@ -245,7 +245,7 @@ public class GUI extends JFrame{
 		//========================================================================================================
 				//create roll button
 				roll = new JButton("Roll!");
-				roll.setPreferredSize(new Dimension(100,100));
+				//roll.setPreferredSize(new Dimension(100,100));
 				roll.setToolTipText("Roll the dice. Is only enabled during your turn.");
 				roll.setEnabled(false);
 				
@@ -263,15 +263,21 @@ public class GUI extends JFrame{
 				 
 				 */
 				
+				//create space for aesthetic purpose
+				JButton space = new JButton("");
+				//space.setPreferredSize(new Dimension(100,100));
+				space.setVisible(false);
+				
 				//create roll button
 				JButton newGame = new JButton("Start Game!");
-				newGame.setPreferredSize(new Dimension(100,100));
+				//newGame.setPreferredSize(new Dimension(100,100));
 				newGame.setToolTipText("Starts new game.");
 				newGame.setEnabled(false);
 				
 				//adds roll button
-				panel.add(newGame, BorderLayout.NORTH);	
-				panel.add(roll, BorderLayout.NORTH);	
+				panel.add(newGame);	
+				panel.add(roll);	
+				panel.add(space);
 				//panel.add(test, BorderLayout.NORTH);	
 		//========================================================================================================
 		
@@ -310,8 +316,8 @@ public class GUI extends JFrame{
 				actionScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				
 				//adds roll button
-				panel.add(list, BorderLayout.CENTER);	
-				panel.add(actionScroll, BorderLayout.CENTER);
+				panel.add(list);	
+				panel.add(actionScroll);
 		//========================================================================================================
 		
 		//ADD PANELS TO FRAME
