@@ -1,12 +1,34 @@
 import java.util.ArrayList;
 
 public class Player{
+    private String name;
     private String shape;
     private ArrayList<Integer> propertyOwned;
+    private ArrayList<Integer> Mortgage;
     private int money;
+    private int turnsInJail;
     private boolean inJail;
     private int pos;
-    
+
+    public Player () {
+        name = "player 1";
+        money = 1500;
+	pos = 0;
+	turnsInJail = 0;
+	inJail = false;
+	propertyOwned = new ArrayList<Integer>();
+	Mortgage = new ArrayList<Integer>();	
+    }
+
+    public Player ( String n ) {
+	this();
+        name = n;
+
+    }
+
+    public String getName(){
+	return name;
+    }
     public String getShape(){
 	return shape;
     }
@@ -23,6 +45,12 @@ public class Player{
 	return pos;
     }
 
+    public int getTurnsInJail(){
+	return turnsInJail;
+    }
+    
+    //-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     public int posAdd(int a){
 	pos += a;
 	if (pos >= 40){
@@ -31,14 +59,13 @@ public class Player{
 	}
 	return pos;
     }
-    
-    //-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     public int loseMoney(int amt){
 	money -= amt;
 	return amt;
     }
 
-    public void getPaid(int amt){
+    public void cashIn(int amt){
 	money += amt;
     }
 
@@ -47,4 +74,63 @@ public class Player{
 	return money;
     }
     
+    public void jailed(){
+	pos = 9;
+	inJail = true;
+	turnsInJail = 0;
+    }
     
+    public void jailBreak(){
+	inJail = false;
+    }
+
+    public void mort(Tile T, int i){
+	//	cashIn(T.getMortgage());
+	//	mortgage.add(propertyOwned().remove(i));
+    }
+
+    public void deMort(Tile T, int i){
+	//	loseMoney(T.getMortgage());
+	//	mortgage. 
+    }
+
+    public String buy ( Tile t ) {
+        if ( t.getCost() > money )
+	    return "You don't have enough money.";
+        money -= t.getCost();
+	propertyOwned.add( t.getIndex() );
+        t.setOwner(name);
+        return "You bought " + t.getName();
+    }
+
+
+   public String toString() {
+        String s = "";
+        s += "Name : " + name + "\n";
+        s += "You have $" + money + "\n";
+        s += "You own: \n";
+        
+        for ( Tile t : propertyOwned ) {
+	    s += t;
+        }
+        
+        return s;
+    }
+
+    /*
+    public void buyHouse ( Tile t ) {
+        money -= 100;
+        t.setAdd_on (0);
+    }
+
+    public void buyHotel ( Tile t ) {
+        money -= 200;
+	
+        t.setAdd_on (1);
+    }
+    
+    */
+
+
+
+
