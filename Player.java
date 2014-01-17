@@ -93,6 +93,21 @@ public class Player{
 	//	loseMoney(T.getMortgage());
 	//	mortgage. 
     }
+    
+    public void propertyInteract(Tile t){
+    	if(t.getOwned() && !t.getOwner().equals(name)) {
+	    System.out.println( "Paid " + t.getOwner() + " " 
+				payOwner(t.getOwner(),t.calcRent()) + );
+    	}// IF money < 0 ................
+    	else 
+	    if (money > t.getCost()){
+		System.out.println("Buy " + t.getName() + " for " 
+				   + t.getCost() + "?(y/n)");
+		String ans = Keyboard.readString();
+		if (ans.equals("y"))
+		    System.out.println( buy(t));
+	    }
+    }
 
     public String buy ( Tile t ) {
         if ( t.getCost() > money )
