@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import cs1.Keyboard;
 
 public class Player{
     private String name;
@@ -93,21 +94,6 @@ public class Player{
 	//	loseMoney(T.getMortgage());
 	//	mortgage. 
     }
-    
-    public void propertyInteract(Tile t){
-    	if(t.getOwned() && !t.getOwner().equals(name)) {
-	    System.out.println( "Paid " + t.getOwner() + " " 
-				payOwner(t.getOwner(),t.calcRent()) + );
-    	}// IF money < 0 ................
-    	else 
-	    if (money > t.getCost()){
-		System.out.println("Buy " + t.getName() + " for " 
-				   + t.getCost() + "?(y/n)");
-		String ans = Keyboard.readString();
-		if (ans.equals("y"))
-		    System.out.println( buy(t));
-	    }
-    }
 
     public String buy ( Tile t ) {
         if ( t.getCost() > money )
@@ -131,6 +117,53 @@ public class Player{
         
         return s;
     }
+
+    public void propertyInteract(Tile t){
+    	if(t.getOwned() && !t.getOwner().equals(name)) {
+	    System.out.println( "Paid " + t.getOwner() + " " 
+				payOwner(t.getOwner(),t.calcRent()) + );
+    	}// IF money < 0 ................
+    	else 
+	    if (money > t.getCost()){
+		System.out.println("Buy " + t.getName() + " for " 
+				   + t.getCost() + "?(y/n)");
+		String ans = Keyboard.readString();
+		if (ans.equals("y"))
+		    System.out.println( buy(t));
+	    }
+    }
+
+    public boolean isBankrupt(){
+	retBoo = false;
+	if (money <= 0 && propertyOwned.size() == 0)
+	    retBoo = true;
+	return retBoo
+    }
+
+    public boolean emergencyMort(){
+	retBoo = true;
+	while (money < 0){
+	    if (isBankrupt()){
+		retBoo = false;
+		break;
+	    }
+	    System.out.println("Mortgage which property?" + 
+			       Board.propPrint(propertyOwned));
+	    
+	    int i = Keyboard.readInt();
+	    //NEED GUI IN
+	    if (propertyOwned.indexOf(i) > -1){
+		mort(Board.getTile(i), properyOwned.indexOf(i));
+		System.out.println("Mortgaged " + Board.getTile(i).getName() +
+				   "for " + Board.getTile(i).getMortgage());
+	    }
+	    else
+		System.out.println("You don't own that property. Try again");
+	}
+	return retBoo;
+    }
+
+	    
 
     /*
     public void buyHouse ( Tile t ) {
