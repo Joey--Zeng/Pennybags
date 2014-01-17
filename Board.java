@@ -26,6 +26,18 @@ public class Board {
     public boolean double(){     // 1/6 probability that roll is a double.
     	return (Math.random < (1/6));
     }
+    
+    public static Tile getTile(int i){
+    	return board.get(i);
+    }
+    
+    public static String propPrint(ArrayList<Integer> a){
+    	String retStr = "";
+    	for (int i = 0; i < a.size(); i++){
+    		retStr += a.get(i) + ") " + getTile(a.get(i)).getName() + "   ";
+    	}
+    	return retStr;
+    }
 
     public static void play () {
 	initialize();
