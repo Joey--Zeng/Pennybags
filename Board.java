@@ -4,6 +4,7 @@ import cs1.Keyboard;
 public class Board {
 
     private static ArrayList<Tile> board;
+    private ArrayList<Player> players;
 
     private static Tile A = new Tile( "A", 200 );
     private static Tile B = new Tile( "B", 200 );
@@ -19,8 +20,11 @@ public class Board {
 	board.add(E);
     }
 
-    public static int role () {
-	return (int) (Math.random() * 6);
+    public static int roll () {
+	return (int) (Math.random() * 12) + 1;
+    }
+    public boolean double(){     // 1/6 probability that roll is a double.
+    	return (Math.random < (1/6));
     }
 
     public static void play () {
@@ -34,8 +38,10 @@ public class Board {
 
 	Player a = new Player(one);
 	Player b = new Player(two);
+	players.add(a);
+	players.add(b);
 
-	while ( a.getMoney() > 0 || b.getMoney() > 0 ) {
+	while ( players.size() > 0 ) {
 
 	    //Player a's turn
 	    System.out.println( "" + a.getName() + "'s turn" );
