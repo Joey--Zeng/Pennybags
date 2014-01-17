@@ -8,9 +8,9 @@ public class GUI extends JFrame{
 	private JFrame frame; // top level frame
 	private JPanel panel; // panel for buttons and misc
 	private JPanel bgPanel; // panel for monopoly board
-	Image img = new ImageIcon("monopoly.jpg").getImage(); // monopoly board
 	private JButton roll; // roll button
-	private JTextArea list;
+	private DefaultListModel listModel; // list
+	private JList list; // list holder
 	private JTextArea action;
 	
 	public GUI() {
@@ -25,7 +25,7 @@ public class GUI extends JFrame{
 		//create button panel
 		panel = new JPanel();
 		//panel.setPreferredSize(new Dimension(200,600));
-		panel.setLayout(new GridLayout(5,0,0,15));
+		panel.setLayout(new GridLayout(4,0,0,15)); // first number is number of elements
 		
 		//MENU CREATION
 		//========================================================================================================
@@ -250,6 +250,20 @@ public class GUI extends JFrame{
 				roll.setEnabled(false);
 				
 				//create roll button
+				/* testing function
+				
+				JButton test = new JButton("test!");
+				test.setPreferredSize(new Dimension(100,100));
+				test.setEnabled(true);
+				test.addActionListener(new ActionListener() {
+				   public void actionPerformed(ActionEvent event) {
+					   listModel.addElement("test");
+				  }
+				 });
+				 
+				 */
+				
+				//create roll button
 				JButton newGame = new JButton("Start Game!");
 				newGame.setPreferredSize(new Dimension(100,100));
 				newGame.setToolTipText("Starts new game.");
@@ -258,22 +272,29 @@ public class GUI extends JFrame{
 				//adds roll button
 				panel.add(newGame, BorderLayout.NORTH);	
 				panel.add(roll, BorderLayout.NORTH);	
+				//panel.add(test, BorderLayout.NORTH);	
 		//========================================================================================================
 		
 		//CREATES TEXTFIELD & ACTION LIST
 		//========================================================================================================
 				//create player list
 				Font font = new Font("Verdana", Font.BOLD, 12);
-				list = new JTextArea("Players\n==============                                         \n\n");
+				listModel = new DefaultListModel(); // actual list
+				
+				//adds to list
+				listModel.addElement("Player List");
+				listModel.addElement("=================================");
+				listModel.addElement("Player 1 : $1500 dollars");
+				
+				//adds list to listHolder
+				list = new JList(listModel); // holds list
+				list.setVisibleRowCount(5);
+				list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 				list.setFont(font);
 				list.setForeground(Color.BLACK);
-				list.setRows(5);
 				list.setToolTipText("Player list");
 				list.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.green));
-				list.setEditable(false);
 				list.setEnabled(true);
-				
-				list.append("Player 1 : $1500 dollars");
 				
 				//create action list
 				action = new JTextArea("Action List\n==============\n\n");
@@ -313,7 +334,7 @@ public class GUI extends JFrame{
 		
 	
 	public static void main(String[] args){
-		GUI test = new GUI();		
+		GUI tester = new GUI();		
 	}
 }
 	
