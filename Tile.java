@@ -3,15 +3,20 @@ public class Tile {
     private String owner;
     private String name;
     private int cost;
-    private int rent;
-    private int[] add_on = { 0, 0 };
+    private int[] rent = {0,0,0,0,0};
+    private int houseCost;
+    private int addOn = 0;
     private boolean owned = false;
 
 
-    public Tile ( String n, int c ) {
+    public Tile ( String n, int c, int a, int b, int c, int d, int e ) {
 	name = n;
 	cost = c;
-	rent = (int) (c * 0.5);
+	rent[0] = a;
+	rent[1] = b;
+	rent[2] = c;
+	rent[3] = d;
+	rent[4] = e;
     }
 
     public String getName () {
@@ -26,14 +31,15 @@ public class Tile {
 	return rent;
     }
 
+
     public String setOwner ( String n ) {
 	owner = n;
 	owned = true;
 	return owner;
     }
 
-    public void setAdd_on ( int n ) {
-	add_on[n] += 1;
+    public void setAddOn ( int n ) {
+	addOn += n;
     }
 
     public String toString() {
@@ -41,17 +47,22 @@ public class Tile {
 	s += "   " + name + "\n";
 	s += "   Cost:" + cost + "\n";
 	s += "   rent:" + rent + "\n";
-	s += "   " + add_on[0] + " houses\n";
-	s += "   " + add_on[1] + " hotels\n";
+	if ( addOn >= 4 ) {
+	    s += "   " + 4 + " houses\n";
+	    s += "   " + ( addOn - 4 ) + " hotels\n";
+	}
+	else 
+	    s += "   " + addOn + " houses\n";
 	return s;
     }
 
     public int calculateRent () {
-	rent += add_on[0] * 100;
-	rent += add_on[0] * 200;
 	return rent;
     }
 
+    public int sellHouse (int n) {
+	return n * houseCost;
+    }
 
 
 }
