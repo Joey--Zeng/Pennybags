@@ -12,6 +12,10 @@ public class Board {
     private static Tile D = new Tile( "D", 200 );
     private static Tile E = new Tile( "E", 200 );
 
+    private int dice1;
+    private int dice2;
+    private int doubCount;
+
     public static void initialize() {
 	board.add(A);
 	board.add(B);
@@ -21,10 +25,13 @@ public class Board {
     }
 
     public static int roll () {
-	return (int) (Math.random() * 12) + 1;
+	dice1 = (int) (Math.random() * 6) + 1;
+	dice2 = (int) (Math.random() * 6) + 1;
+	System.out.println("" + dice1 + " " + dice2);
+	return dice1 + dice2;
     }
-    public boolean double(){     // 1/6 probability that roll is a double.
-    	return (Math.random < (1/6));
+    public boolean doubs(){     // 1/6 probability that roll is a double.
+    	return dice1 == dice2;
     }
     
     public static Tile getTile(int i){
@@ -103,9 +110,22 @@ public class Board {
 	    for(int i = 0; i < players.size() i++){
 		Player ref = players.get(i);
 	        if (ref.inJail()){
-		    
-
-
+		    roll();
+		    if(doubs())
+			ref.jailBreak();
+		    else if (ref.getMoney() >= 50){
+			System.out.println("Bail for 50? (y/n)");
+			String ans = Keyboard.readString();
+			if (ans.equals("y")){
+			    ref.loseMoney(50);
+			    ref.jailBreak();
+			}
+		    }
+		}
+		else{
+		    ref.posAdd(roll());
+     //
+		}
 
 
 
