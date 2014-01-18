@@ -34,10 +34,56 @@ public class Board {
     public static String propPrint(ArrayList<Integer> a){
     	String retStr = "";
     	for (int i = 0; i < a.size(); i++){
-    		retStr += a.get(i) + ") " + getTile(a.get(i)).getName() + "   ";
+    		retStr += a.get(i) + ") " + getTile(a.get(i)).getName() + "  ";
     	}
-    	return retStr;
+    	return retStr + "(imput the number)";
     }
+
+
+    public boolean emergencyMort(Player p){
+        retBoo = true;
+        while (p.getMoney() < 0){
+
+	    if (p.isBankrupt()){
+                retBoo = false;
+                break;
+	    }
+	    System.out.println("Mortgage/de-house which property?" +
+			       propPrint(p.getPropertyOwned()));
+	    int i = Keyboard.readInt();
+	    //NEED GUI IN
+	    
+	    if (p.getPropertyOwned().indexOf(i) > -1){
+		if (getTile(i).getAddOn() >4){	 
+		    int cashh = getTile(i).sellHouses(5);
+		    p.cashIn(cashh);
+		    System.out.println("Got " + cashh);
+		}
+		else if (Board.getTile(i).getAddOn() > 1){
+		    System.out.println("How many houses to sell?");
+		    int h = Keyboard.readInt();		 
+		    int cash = getTile(i).sellHouses(x);
+		    p.cashIn(cash);
+		    System.out.println("Got " + cash);
+		}
+		else{
+		    mort(getTile(i), p.getProperyOwned().indexOf(i));
+		    System.out.println("Mortgaged " + getTile(i).getName() +
+				       "for " + getTile(i).getMortgage());
+		}
+	    }
+	    else
+		System.out.println("You don't own that property. Try again");
+        }
+        return retBoo;
+    }
+
+
+
+
+
+
+
 
     public static void play () {
 	initialize();
@@ -54,7 +100,17 @@ public class Board {
 	players.add(b);
 
 	while ( players.size() > 0 ) {
+	    for(int i = 0; i < players.size() i++){
+		Player ref = players.get(i);
+	        if (ref.inJail()){
+		    
 
+
+
+
+
+
+	    /*
 	    //Player a's turn
 	    System.out.println( "" + a.getName() + "'s turn" );
 	    System.out.println("Your status:\n");
@@ -82,6 +138,7 @@ public class Board {
 		b.buy(board.get(b.getPos()));
 
 	    System.out.println("Your status:\n" + b );
+	    */
 
 	}
 
