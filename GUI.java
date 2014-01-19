@@ -275,16 +275,14 @@ public class GUI extends JFrame{
 				
 				//create roll button
 				/* testing function
-				
 				JButton test = new JButton("test!");
 				test.setPreferredSize(new Dimension(100,100));
 				test.setEnabled(true);
 				test.addActionListener(new ActionListener() {
 				   public void actionPerformed(ActionEvent event) {
-					   listModel.addElement("test");
+					   action.append("test\n");
 				  }
 				 });
-				 
 				 */
 				
 				//create space for aesthetic purpose
@@ -302,7 +300,7 @@ public class GUI extends JFrame{
 				panel.add(newGame);	
 				panel.add(roll);	
 				panel.add(space);
-				//panel.add(test, BorderLayout.NORTH);	
+				//panel.add(test);	
 		//========================================================================================================
 		
 		//CREATES TEXTFIELD & ACTION LIST
@@ -336,6 +334,7 @@ public class GUI extends JFrame{
 				action.setLineWrap(true);
 				action.setEditable(false);
 				action.setEnabled(true);
+				action.setCaretPosition(action.getDocument().getLength());
 				JScrollPane actionScroll = new JScrollPane(action);
 				actionScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				
