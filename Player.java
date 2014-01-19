@@ -11,6 +11,7 @@ public class Player{
     private boolean inJail;
     private int pos;
     private int addOns;
+    private boolean card;
 
 
     public Player () {
@@ -92,13 +93,13 @@ public class Player{
     }
 
     public void mort(Tile T, int i){
-        //        cashIn(T.getMortgage());
-        //        mortgage.add(propertyOwned().remove(i));
+	cashIn(T.getCost()/2);
+	mortgage.add(propertyOwned.remove(i));
     }
-
+    
     public void deMort(Tile T, int i){
-        //        loseMoney(T.getMortgage());
-        //        mortgage.
+	loseMoney(T.getCost()/2);
+	propertyOwned.add(mortgage.remove(i));      
     }
 
     public String buy ( Tile t ) {
@@ -132,21 +133,46 @@ public class Player{
 	this.addPos(add);
     }
 
-    public void propertyInteract(Tile t, ArrayList<Player> playerss){
-	if(t.getOwned() && !t.getOwner().equals(name)) {
-	    System.out.println( "Paid " + t.getOwner() + " "
-                                payOwner(t.getOwner(),t.calcRent()) + );
-	}// IF money < 0 ................
-	else
-	    if (money > t.getCost()){
-                System.out.println("Buy " + t.getName() + " for "
-				   + t.getCost() + "?(y/n)");
-                String ans = Keyboard.readString();
-                if (ans.equals("y"))
-		    System.out.println( buy(t));
+    public int propertyInteract(Tile t, ArrayList<Player> playerss, int dice1, int dice2){
+	int retInt = 0;
+	int pos = t.getPos();
+
+	if (pos == 7 || pos == 22 || pos == 36)	    
+	    retInt = chanceInteract(playerss);
+	else if (pos == 2 || pos == 17 || pos == 33)
+	    communityInteract(playerss);
+	else if (pos == 0 || pos == 10 || pos == 20){}
+
+	else{
+	    if(t.getOwned() && !t.getOwner().getName()equals(name)) {
+		if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
+		    System.out.println( "Paid " + t.getOwner().getName() + " " +
+					utilityPay(t, dice1, dice2));
+		}
+		else if(t.getPos() % 10 == 5){ // then its a RR
+		    System.out.println( "Paid " + t.getOwner().getName() + " " +
+					RRPay(t) );		    
+		}
+		else{
+		    System.out.println( "Paid " + t.getOwner().getName() + " " +
+					payOwner(t.getOwner(),t.calcRent()) );
+		}
+		
+	    }// IF money < 0 ................
+	    else{
+		if (money > t.getCost()){
+		    System.out.println("Buy " + t.getName() + " for "
+				       + t.getCost() + "?(y/n)");
+		    String ans = Keyboard.readString();
+		    if (ans.equals("y"))
+			System.out.println( buy(t));
+		}
 	    }
+	}
+	return retInt;
     }
-    
+
+
     public void jailInteract(){
 	this.jailed();
     }
@@ -166,7 +192,8 @@ public class Player{
 	    System.out.println("Try again, type 1 or 2");
     }
 
-    public void chanceInteract(Arraylist<Players> playerss){
+    public int chanceInteract(Arraylist<Players> playerss){
+	retInt = 0;
 	System.out.println("Chance!");
 	int x = (int)Math.random()*16;
 	if (x == 8){
@@ -180,9 +207,9 @@ public class Player{
 		this.posAdd(newPos - getPos());
 	    }
 	    else if (x > 4){
-		if (x == 6){// GET OUT OF JAIL IMPLEMENTATION
-		    System.out.println("Got 50");
-		    this.cashIn(50);
+		if (x == 6){		    
+		    card = true;
+		    System.out.println("Get Out of Jail Free card");
 		}
 		else if (x == 5){
 		    System.out.println("Bank pays you dividend of 50!");
@@ -191,7 +218,8 @@ public class Player{
 		else{ // x must == 7
 		    System.out.println("Go back three spaces.");
 		    this.posAdd(-3);
-		    // **************Need to make it interact with...******
+		    retInt = this.getPos();
+
 		}
 	    }
 	    else{ // x < 4
@@ -201,6 +229,7 @@ public class Player{
 		    if (add >= 40)
 			add -= 40;
 		    this.posAdd(add);
+		    retInt = 11;
 		}
 		else if (x == 0){
 		    System.out.println("Advance to Go");
@@ -212,6 +241,7 @@ public class Player{
 		    if (add >= 40)
 			add -= 40;
 		    this.posAdd(add);
+		    retInt = 24;
 		}
 		else{
 		    System.out.println("Advance to nearest Utility");
@@ -219,6 +249,7 @@ public class Player{
 			this.advanceTo(28);
 		    else
 			this.advanceTo(12);
+		    retInt = this.getPos();
 		}
 	    }
 	}
@@ -226,6 +257,7 @@ public class Player{
 	    if(x == 12){
 		System.out.println("Take a walk to the Boardwalk");
 		this.advanceTo(39);
+		retInt = this.getPos();
 	    }
 	    else if (x < 12){
 		if (x == 10){
@@ -240,6 +272,7 @@ public class Player{
 		else {
 		    System.out.println("Take a trip on the Reading(Reading Railroad)");
 		    this.advanceTo(25);
+		    retInt = this.getPos();
 		}
 	    }
 	    else {
@@ -262,14 +295,135 @@ public class Player{
 	    }
 	}
     }// end chance
+    
 
-
-    public void communityInteract(){
-	// MY IMPLEMENTATION HERE
+    public void communityInteract(ArrayList<Player> playerss){
+	System.out.println("Community Chest!");
+	int x = (int)Math.random()*17;
+	if (x == 8){
+	    System.out.println("Income tax refund - Collect 20");
+	    this.cashIn(20);
+	}
+	else if (x < 8){
+	    if (x < 4){
+		if ( x == 0){
+		    System.out.println("Advance to Go");
+		    this.AdvanceTo(0);		 
+		}
+		else if (x == 1){
+		    System.out.println("Bank error in your favor - Collect 200!");
+		    this.cashIn(200);
+		}
+		else if (x == 2){	  
+		    System.out.println("Doctor's fees - pay 50");
+		    this.loseMoney(50);
+		}
+		else{// x == 3
+		    System.out.println("From sale of stock, you gain 50");
+		    this.cashIn(50);
+		}
+	    }
+	    else{ //x >= 4
+		if (x == 4){
+		    System.out.println("Get Out of Jail Free card");
+		    card = true;			
+		}
+		else if (x == 5){
+		    System.out.println("Go to Jail");
+		    this.jailed();
+		}
+		else if (x == 6){
+		    System.out.println("Grand Opera Night - Collect 50 from each player for seats");
+		    this.collect(playerss, 50);
+		}
+		else{  // x == 7
+		    System.out.println("Holiday Fund matures - Receive 100");
+		    this.cashIn(100);
+		}
+	    }
+	}
+	else {  // x > 8
+	    if (x <= 12){
+		if (x == 9){
+		    System.out.println("It's your birthday - Collect 10 from each player");
+		    this.collect(playerss, 10);
+		}
+		else if (x == 10){
+		    System.out.println("Life insurance matures - Collect 100");
+		    this.cashIn(100);
+		}
+		else if (x == 11){
+			System.out.println("Pay hospital fees of 100");
+			this.loseMoney(100);
+		}
+		else{ //x == 12
+		    System.out.println("Pay school fees of 150");
+		    this.loseMoney(150);
+		}		
+	    }
+	    else{  // x > 12
+		if (x == 13){
+		    System.out.println("Receive 25 in consultancy fees");
+		    this.cashIn(25);
+		}
+		else if (x == 14){
+		    System.out.println("You are assessed for street repairs- 40 per house, 200 per hotel");
+		    this.loseMoney(this.getAddOns() * 40);
+		}
+		else if (x == 15){
+		    System.out.println("Second place in beauty contest - Collect 10");
+		    this.cashIn(10);
+		}
+		else{ // x == 16
+		    System.out.println("You inherit 100");
+		    this.cashIn(100);
+		}
+	    }
+	}
     }
-	
-		
 
+    public int utilityPay(Tile t, int a, int b){
+        int retInt = 0;
+	if (t.getOwner.getPropertyOwned().contains(12) &&
+	    t.getOwner.getPropertyOwned().contains(28)){
+	    this.payOwner(t.getOwner(), 10*(a+b));
+	    retInt = 10*(a+b);
+	}
+	else{
+	    this.payOwner(t.getOwner(), 4*(a+b));
+	    retInt = 4*(a+b);
+	}
+	return retInt;
+    }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    public int RRPay(Tile t){
+	int retInt = 0;
+	int mult = 1;
+	if (t.getOwner().getPropertyOwned().contains(5))
+	    mult *= 2;
+	if (t.getOwner().getPropertyOwned().contains(15))
+	    mult *= 2;
+	if (t.getOwner().getPropertyOwned().contains(25))
+	    mult *= 2;
+	if (t.getOwner().getPropertyOwned().contains(35))
+	    mult *= 2;
+	mult /= 2;
+	this.payOwner(t.getOwner(), 25*mult);
+	return 25*mult;
+    }
+    
+    public void collect(ArrayList<Players> playerss, int i){
+	for (Player p : playerss){
+	    if (!p.getName.equals(this.getName)){
+		this.cashIn(i);
+		p.loseMoney(i):
+		System.out.println("Collected" + i + "from" + p.getName);
+	    }
+	}
+    }
+
+    
     public void buyHouse ( Tile t, int i ) {
 	money -= t.getHouseCost() * i;
 	t.setAddOn(t.getAddOn() + i);
@@ -281,5 +435,15 @@ public class Player{
 	t.setAddOn(t.getAddOn() - 1);
 	addOns -= i;	
     }
+
+    public boolean isBankrupt(){
+	retBoo = false;
+	if (money <= 0 && propertyOwned.size() == 0)
+	    retBoo = true;
+	return retBoo;
+    }
+
+
+}// end class Player
     
-    
+	
