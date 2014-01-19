@@ -70,6 +70,7 @@ public class Board {
 
 	    if (p.isBankrupt()){
                 retBoo = false;
+		System.out.println("You have lost the game.");
                 break;
 	    }
 	    System.out.println("Mortgage/de-house which property?" +
@@ -127,22 +128,54 @@ public class Board {
 	    for(int i = 0; i < players.size() i++){
 		Player ref = players.get(i);
 	        if (ref.inJail()){
-		    roll();
-		    if(doubs())
+		    if (ref.getCard()){ // NEED getCard()
+			ref.loseCard(); // NEED loseCard()
 			ref.jailBreak();
-		    else if (ref.getMoney() >= 50){
-			System.out.println("Bail for 50? (y/n)");
-			String ans = Keyboard.readString();
-			if (ans.equals("y")){
-			    ref.loseMoney(50);
+			System.out.println("Used card to get out of jail");
+		    }
+		    else{
+			roll();
+			if(doubs())
 			    ref.jailBreak();
+			else if (ref.getMoney() >= 50){
+			    System.out.println("Bail for 50? (y/n)");
+			    String ans = Keyboard.readString();
+			    if (ans.equals("y")){
+				ref.loseMoney(50);
+				ref.jailBreak();
+			    }
 			}
 		    }
 		}
 		else{
-		    ref.posAdd(roll());
-     //
+		    doubCount = 0;
+		    for (int dum = 1; dum == 1; dum ++){
+			ref.posAdd(roll());
+			if (dice1 == dice2){
+			    if (doubCount >= 2){
+				ref.jailed();
+				break;
+			    }
+			    else{
+				doubCount ++;
+				dum--;
+			    }
+			}
+			int abc = ref.propertyInteract(board.get(ref.getPos()), players, dice1, dice2);
+			ref.propertyInteract(board.get(abc), players, dice1, dice2);	
+			if (ref.getMoney() < 0){
+			    if (!emergencyMort(ref)){
+				players.remove(i); // REPLACE THIS WITH METHOD TO FREE ALL PROPS...
+			    }
+			}
+			if (players.size <= 1){
+			    System.out.println("Game is over. The remaining player has won.");
+			}					      
+		    }
 		}
+	    }
+	}
+    }
 
 
 
