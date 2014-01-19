@@ -25,7 +25,7 @@ public class GUI extends JFrame{
 		//create button panel
 		panel = new JPanel();
 		//panel.setPreferredSize(new Dimension(200,600));
-		panel.setLayout(new GridLayout(5,0,0,15)); // first number is number of elements
+		panel.setLayout(new GridLayout(5,0,0,15)); // first number is number of elements(buttons) allowed
 		
 		//MENU CREATION
 		//========================================================================================================
