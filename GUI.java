@@ -61,7 +61,7 @@ public class GUI extends JFrame{
 				//add functionality to credit
 				credit.addActionListener(new ActionListener() {
 				   public void actionPerformed(ActionEvent event) {
-					   JOptionPane.showMessageDialog(panel, "<html><center><b>Hyunwoo Jeung, Johnathan Yan, Joey Zeng\nPeriod 9</center></b></html>", "Credits", JOptionPane.INFORMATION_MESSAGE);
+					   JOptionPane.showMessageDialog(panel, "<html><center><b>Hyunwoo Jeung, Johnathan Yan, Joey Zeng\nPeriod 9", "Credits", JOptionPane.INFORMATION_MESSAGE);
 				  }
 				 });
 				
@@ -87,15 +87,21 @@ public class GUI extends JFrame{
 				JPanel north = new JPanel();
 				JButton b20 = new JButton("<html><center>20<br><b>Free<br>Parking</html>");
 				JButton b21 = new JButton("<html><center>21<br><b>Kentucky<br>Avenue<br>$220</html>");
+				b21.setForeground(Color.red);
 				JButton b22 = new JButton("<html><center>22<br><b>Chance</html>");
 				b22.setToolTipText("Draw a card!");
 				JButton b23 = new JButton("<html><center>23<br><b>Indiana<br>Avenue<br>$220</html>");
+				b23.setForeground(Color.red);
 				JButton b24 = new JButton("<html><center>24<br><b>Illinois<br>Avenue<br>$240</html>");
+				b24.setForeground(Color.red);
 				JButton b25 = new JButton("<html><center>25<br><b>B&O<br>RR<br>$200</html>");
 				JButton b26 = new JButton("<html><center>26<br><b>Atlantic<br>Avenue<br>$260</html>");
+				b26.setForeground(Color.yellow);
 				JButton b27 = new JButton("<html><center>27<br><b>Ventnor<br>Avenue<br>$260</html>");
+				b27.setForeground(Color.yellow);
 				JButton b28 = new JButton("<html><center>28<br><b>Water<br>Works<br>$150</html>");
 				JButton b29 = new JButton("<html><center>29<br><b>Marvin<br>Gardens<br>$280</html>");
+				b29.setForeground(Color.yellow);
 				JButton b30 = new JButton("<html><center>30<br><b>Go To<br>Jail</html>");
 				b30.setToolTipText("How unfortunate. GO TO JAIL!");
 				b20.setPreferredSize(new Dimension(85,110));
@@ -124,18 +130,25 @@ public class GUI extends JFrame{
 				//create tiles on the bottom
 				JPanel south = new JPanel();
 				JButton b0 = new JButton("<html><center>0<br><b>GO</b></center></html>");
-				JButton b1 = new JButton("<html><center>1<br />Medi.<br />Avenue</center></html>");
+				JButton b1 = new JButton("<html><center>1<br />Medi.<br />Avenue<br>$60</center></html>");
+				b1.setForeground(Color.blue);
+				b1.setIcon(new ImageIcon("shoe.jpg"));
+				b1.setHorizontalTextPosition(SwingConstants.CENTER);
 				JButton b2 = new JButton("<html><center>2<br><b>Commun.<br>Chest</html>");
 				b2.setToolTipText("Draw a card!");
-				JButton b3 = new JButton("<html><center>3<br><b>Baltic<br>Avenue</html>");
+				JButton b3 = new JButton("<html><center>3<br><b>Baltic<br>Avenue<br>$60</html>");
+				b3.setForeground(Color.blue);
 				JButton b4 = new JButton("<html><center>4<br><b>Income<br>Tax</html>");
 				b4.setToolTipText("Pay $200");
 				JButton b5 = new JButton("<html><center>5<br><b>Reading<br>R.R.<br>$200</html>");
 				JButton b6 = new JButton("<html><center>6<br><b>Oriental<br>Avenue<br>$100</html>");
+				b6.setForeground(Color.cyan);
 				JButton b7 = new JButton("<html><center>7<br><b>Chance</html>");
 				b7.setToolTipText("Draw a card!");
 				JButton b8 = new JButton("<html><center>8<br><b>Vermont<br>Avenue<br>$100</html>");
+				b8.setForeground(Color.cyan);
 				JButton b9 = new JButton("<html><center>9<br><b>Connnect.<br>Avenue<br>$120</html>");
+				b9.setForeground(Color.cyan);
 				JButton b10 = new JButton("<html><center>10<br><b>Jail<br>or<br>Visiting</html>");
 				b0.setPreferredSize(new Dimension(85,110));
 				b1.setPreferredSize(new Dimension(85,110));
@@ -164,17 +177,22 @@ public class GUI extends JFrame{
 				JPanel east = new JPanel();
 				east.setLayout(new GridLayout(9,0));
 				JButton b31 = new JButton("<html><center>31<br><b>Pacific<br>Avenue<br>$300</html>");
+				b31.setForeground(Color.green);
 				JButton b32 = new JButton("<html><center>32<br><b>N.C.<br>Avenue<br>$300</html>");
+				b32.setForeground(Color.green);
 				JButton b33 = new JButton("<html><center>33<br><b>Commun.<br>Chest</html>");
 				b33.setToolTipText("Draw a card!");
 				JButton b34 = new JButton("<html><center>34<br><b>Penn.<br>Avenue<br>$320</html>");
+				b34.setForeground(Color.green);
 				JButton b35 = new JButton("<html><center>35<br><b>Short<br>Line<br>$200</html>");
 				JButton b36 = new JButton("<html><center>36<br><b>Chance</html>");
 				b36.setToolTipText("Draw a card!");
 				JButton b37 = new JButton("<html><center>37<br><b>Park<br>Place<br>$350</html>");
+				b37.setForeground(Color.blue);
 				JButton b38 = new JButton("<html><center>38<br><b>Luxury<br>Tax</html>");
 				b38.setToolTipText("Pay $75.");
 				JButton b39 = new JButton("<html><center>39<br><b>Board<br>walk<br>$400</html>");
+				b39.setForeground(Color.blue);
 				b31.setPreferredSize(new Dimension(90,70));
 				b32.setPreferredSize(new Dimension(90,70));
 				b33.setPreferredSize(new Dimension(90,70));
@@ -198,15 +216,21 @@ public class GUI extends JFrame{
 				JPanel west = new JPanel();
 				west.setLayout(new GridLayout(9,0));
 				JButton b11 = new JButton("<html><center>11<br><b>St. Charles<br>Place<br>$140</html>");
+				b11.setForeground(Color.magenta);
 				JButton b12 = new JButton("<html><center>12<br><b>Elec.<br>Company<br>$150</html>");
 				JButton b13 = new JButton("<html><center>13<br><b>States<br>Avenue<br>$140</html>");
+				b13.setForeground(Color.magenta);
 				JButton b14 = new JButton("<html><center>14<br><b>Virginia<br>Avenue<br>$160</html>");
+				b14.setForeground(Color.blue);
 				JButton b15 = new JButton("<html><center>15<br><b>Penn.<br>R.R.<br>$200</html>");
 				JButton b16 = new JButton("<html><center>16<br><b>St. James<br>Place<br>$180</html>");
+				b16.setForeground(Color.orange);
 				JButton b17 = new JButton("<html><center>17<br><b>Commun.<br>Chest</html>");
 				b17.setToolTipText("Draw a card!");
 				JButton b18 = new JButton("<html><center>18<br><b>Tennessee<br>Avenue<br>$180</html>");
+				b18.setForeground(Color.orange);
 				JButton b19 = new JButton("<html><center>19<br><b>New York<br>Avenue<br>$200</html>");
+				b19.setForeground(Color.orange);
 				b11.setPreferredSize(new Dimension(90,70));
 				b12.setPreferredSize(new Dimension(90,70));
 				b13.setPreferredSize(new Dimension(90,70));
@@ -323,7 +347,7 @@ public class GUI extends JFrame{
 		//ADD PANELS TO FRAME
 		//========================================================================================================
 				frame.add(panel, BorderLayout.WEST);
-				frame.add(bgPanel, BorderLayout.EAST);
+				frame.add(bgPanel, BorderLayout.CENTER);
 		//========================================================================================================
 		
 		//SET ATTRIBUTES
@@ -331,7 +355,7 @@ public class GUI extends JFrame{
 				frame.setTitle("Monopoly by Pennybags");
 				frame.setLocationRelativeTo(null);
 				frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-				frame.setResizable(false);
+				frame.setResizable(true);
 				//frame.setSize(1000,1000);
 				frame.setVisible(true);
 				frame.pack();
