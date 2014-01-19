@@ -57,7 +57,15 @@ public class Player{
 	return addOns;
     }
     
+    public boolean getCard(){
+	return card;
+    }
+    
     //-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    public void loseCard(){
+	card = false;
+    }
 
     public int posAdd(int a){
         pos += a;
@@ -142,22 +150,26 @@ public class Player{
 	else if (pos == 2 || pos == 17 || pos == 33)
 	    communityInteract(playerss);
 	else if (pos == 0 || pos == 10 || pos == 20){}
+	else if (pos == 30){
+	    this.jailed();
+	}
 
 	else{
 	    if(t.getOwned() && !t.getOwner().getName()equals(name)) {
-		if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
-		    System.out.println( "Paid " + t.getOwner().getName() + " " +
-					utilityPay(t, dice1, dice2));
+		if (t.getOwner().getPropertyOwned().contains(t.getPos())){
+		    if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
+			System.out.println( "Paid " + t.getOwner().getName() + " " +
+					    utilityPay(t, dice1, dice2));
+		    }
+		    else if(t.getPos() % 10 == 5){ // then its a RR
+			System.out.println( "Paid " + t.getOwner().getName() + " " +
+					    RRPay(t) );		    
+		    }
+		    else{
+			System.out.println( "Paid " + t.getOwner().getName() + " " +
+					    payOwner(t.getOwner(),t.calcRent()) );
+		    }
 		}
-		else if(t.getPos() % 10 == 5){ // then its a RR
-		    System.out.println( "Paid " + t.getOwner().getName() + " " +
-					RRPay(t) );		    
-		}
-		else{
-		    System.out.println( "Paid " + t.getOwner().getName() + " " +
-					payOwner(t.getOwner(),t.calcRent()) );
-		}
-		
 	    }// IF money < 0 ................
 	    else{
 		if (money > t.getCost()){
