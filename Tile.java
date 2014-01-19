@@ -1,6 +1,6 @@
 public class Tile {
 
-    private String owner;
+    private Player owner;
     private String name;
     private int cost;
     private int[] rent = {0,0,0,0,0};
@@ -36,10 +36,9 @@ public class Tile {
     }
 
 
-    public String setOwner ( String n ) {
+    public void setOwner ( Player n ) {
 	owner = n;
 	owned = true;
-	return owner;
     }
 
     public void setAddOn ( int n ) {
