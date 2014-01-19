@@ -6,28 +6,11 @@ public class Board {
     private static ArrayList<Tile> board;
     private ArrayList<Player> players;
 
-    private static Tile MediterraneanAve = new Tile( "Mediterrannean Avenue", 60 );
-    private static Tile BalticAve = new Tile( "Baltic Avenue", 60 );
-    private static Tile OrientralAve = new Tile( "Oriental Avenue", 100 );
-    private static Tile VermontAve = new Tile( "Vermont Avenue", 100 );
-    private static Tile ConneticutAve = new Tile( "Conneticut Avenue", 120 );
-    private static Tile StCharlesPlace = new Tile( "St. Charles Place", 140 );
-    private static Tile StatesAve = new Tile( "States Avenue", 140 );
-    private static Tile VirginiaAve = new Tile( "Virginia Avenue", 160 );
-    private static Tile StJamesPlace = new Tile( "St. James Place", 180 );
-    private static Tile TennesseeAve = new Tile( "Tennessee Avenue", 180 );
-    private static Tile NewYorkAve = new Tile( "New York Avenue", 200 );
-    private static Tile KentuckyAve = new Tile( "Kentucky Avenue", 220 );
-    private static Tile IndianaAve = new Tile( "Indiana Avenue", 220 );
-    private static Tile IllinoisAve = new Tile( "Illinois Avenue", 240 );
-    private static Tile AtlanticAve = new Tile( "Atlantic Avenue", 260 );
-    private static Tile VentnorAve = new Tile( "Ventnor Avenue", 260 );
-    private static Tile MarvinAve = new Tile( "Marvin Avenue", 280 );
-    private static Tile PacificAve = new Tile( "Pacific Avenue", 300 );
-    private static Tile NorthCarolinaAve = new Tile( "North Carolina Avenue", 300 );
-    private static Tile PennsylvaniaAve = new Tile( "Pensylvania Avenue", 320 );
-    private static Tile ParkPlace = new Tile( "Park Place", 350 );
-    private static Tile BoardWalk = new Tile( "BoardWalk", 400 );
+    private static Tile A = new Tile( "A", 200 );
+    private static Tile B = new Tile( "B", 200 );
+    private static Tile C = new Tile( "C", 200 );
+    private static Tile D = new Tile( "D", 200 );
+    private static Tile E = new Tile( "E", 200 );
 
     private int dice1;
     private int dice2;

@@ -8,6 +8,10 @@ public class Tile {
     private int addOn = 0;
     private boolean owned = false;
 
+    public Tile ( String n, int c ) {
+	name = n;
+	cost = c;
+    }
 
     public Tile ( String n, int C, int a, int b, int c, int d, int e ) {
 	name = n;
