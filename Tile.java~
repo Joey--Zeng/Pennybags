@@ -9,9 +9,9 @@ public class Tile {
     private boolean owned = false;
 
 
-    public Tile ( String n, int C, int a, int b, int c, int d, int e ) {
+    public Tile ( String n, int c, int a, int b, int c, int d, int e ) {
 	name = n;
-	cost = C;
+	cost = c;
 	rent[0] = a;
 	rent[1] = b;
 	rent[2] = c;
@@ -57,11 +57,10 @@ public class Tile {
     }
 
     public int calculateRent () {
-	return rent[addOn];
+	return rent;
     }
 
     public int sellHouse (int n) {
-	addOn -= n;
 	return n * houseCost;
     }
 
