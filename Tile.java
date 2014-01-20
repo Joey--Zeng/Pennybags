@@ -4,7 +4,7 @@ public class Tile {
     private String name;
     private int pos;
     private int cost;
-    private int[] rent = {0,0,0,0,0};
+    private int[] rent = {0,0,0,0,0,0};
     private int houseCost;
     private int addOn = 0;
     private boolean owned = false;

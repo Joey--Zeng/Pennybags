@@ -30,40 +30,48 @@ public class Board {
     private static Tile BoardWalk = new Tile( "BoardWalk", 400 );
     */
     public Board(){
+	players = new ArrayList<Player>();
+	board = new ArrayList<Tile>();
 	board.add(new Tile("Go", 0, 0));
-	
+      	board.add(new Tile( "Mediterrannean Avenue", 60, 50, 2, 10, 30, 90, 160, 250, 1));
 	board.add(new Tile("Community Chest", 0, 2));
-	
+	board.add(new Tile( "Baltic Avenue", 60, 50, 4,20,60,180,320,450,3));
 	board.add(new Tile("Income Tax", 0 , 4));
-	board.add(new Tile("Reading RR", 0, 5));
-	
+	board.add(new Tile("Reading RR", 200, 5));
+	board.add(new Tile( "Oriental Avenue", 100,50,6,30,90,270,400,550,6));
 	board.add(new Tile("Chance", 0, 7));    
-	
+	board.add(new Tile( "Vermont Avenue", 100, 50,6,30,60,270,400,550,8));
+	board.add(new Tile( "Conneticut Avenue", 120,50,8,40,100,300,450,600,9));
 	board.add(new Tile("Jail", 0, 10));
-	
+	board.add(new Tile( "St. Charles Place", 140,100,10,50,150,450,625,750,11));
 	board.add(new Tile("Electric Company", 150, 12));
-	
-	board.add(new Tile("Pennsylvania RR", 0, 15));
-	
+	board.add(new Tile( "States Avenue", 140,100,10,50,150,450,625,750,13));
+	board.add(new Tile( "Virginia Avenue", 160,100,12,60,180,500,700,900,14));   
+	board.add(new Tile("Pennsylvania RR", 200, 15));
+	board.add(new Tile( "St. James Place", 180,100,14,70,200,550,750,950,16));
 	board.add(new Tile("Community Chest", 0, 17));
-
+	board.add(new Tile( "Tennessee Avenue", 180,100,14,70,200,550,750,950,18));
+	board.add(new Tile( "New York Avenue", 200,100,16,80,220,600,800,1000,19));
 	board.add(new Tile("Free Parking", 0, 20));
-
+	board.add(new Tile( "Kentucky Avenue", 220,150,18,90,250,700,875,1050,21));	
 	board.add(new Tile("Chance", 0, 22));
-
-	board.add(new Tile("B&O RR", 0, 25));
-
+	board.add(new Tile( "Indiana Avenue", 220,150,18,90,250,700,875,1050,23));
+	board.add(new Tile( "Illinois Avenue", 240,150,20,100,300,750,925,1100,24));
+	board.add(new Tile("B&O RR", 200, 25));
+	board.add(new Tile( "Atlantic Avenue", 260,150,22,110,330,800,975,1150,26));
+	board.add(new Tile( "Ventnor Avenue", 260,150,22,110,330,800,975,1150,27));
 	board.add(new Tile("Water Works", 150, 28));
-
+	board.add(new Tile( "Marvin Avenue", 280,150,24,120,360,850,1025,1200,29));	
 	board.add(new Tile("GoToJ", 0, 30));
-	
+	board.add(new Tile( "Pacific Avenue", 300,200,26,130,390,900,1100,1275,31));
+	board.add(new Tile( "North Carolina Avenue", 300,200,26,130,390,900,1100,1275,32));	
 	board.add(new Tile("Community Chest", 0, 33));
-
-	board.add(new Tile("Short Line", 0, 35));
-
+	board.add(new Tile( "Pensylvania Avenue", 320,200,28,150,450,1000,1200,1400,34));	
+	board.add(new Tile("Short Line", 200, 35));
 	board.add(new Tile("Chance", 0, 36));
-	
+	board.add(new Tile( "Park Place", 350,200,35,175,500,1100,1300,1500,37));    
 	board.add(new Tile("Luxury Tax", 0, 38));
+	board.add(new Tile( "BoardWalk", 400,200,50,200,600,1400,1700,2000,39));
     }
 		  
     private static int dice1;
@@ -74,13 +82,14 @@ public class Board {
     }
 
     public static int roll () {
+	System.out.println("Rolling");
 	dice1 = (int) (Math.random() * 6) + 1;
 	dice2 = (int) (Math.random() * 6) + 1;
 	System.out.println("" + dice1 + " " + dice2);
 	return dice1 + dice2;
     }
     public static boolean doubs(){     // 1/6 probability that roll is a double.
-    	return dice1 == dice2;
+    	return dice1 == dice2; 
     }
     
     public static Tile getTile(int i){
@@ -145,8 +154,8 @@ public class Board {
 
 
 
-    public static void play () {
-	initialize();
+    public static void play () { 
+	new Board();
 
 	System.out.println("Player 1, what's your name?");
 	String one = Keyboard.readString();
@@ -154,15 +163,15 @@ public class Board {
 	System.out.println("Player 2, what's your name?");
 	String two = Keyboard.readString();
 
-	Player a = new Player(one);
-	Player b = new Player(two);
-	players.add(a);
-	players.add(b);
+	players.add(new Player(one));
+	players.add(new Player(two));
 
 	while ( players.size() > 1 ) {
 	    for(int i = 0; i < players.size(); i++){
+		System.out.println(players.get(i).getName()+"'s Turn");
 		Player ref = players.get(i);
 	        if (ref.getInJail()){
+		    System.out.println("Jailed");
 		    ref.jailTurn();
 		    if(ref.getTurnsInJail() >= 2){
 			ref.jailBreak();

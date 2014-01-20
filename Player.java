@@ -16,6 +16,7 @@ public class Player{
 
     public Player () {
         name = "player 1";
+	shape = "circle";
         money = 1500;
         pos = 0;
         turnsInJail = 0;
@@ -157,6 +158,10 @@ public class Player{
 	    retInt = chanceInteract(playerss);
 	else if (pos == 2 || pos == 17 || pos == 33)
 	    communityInteract(playerss);
+	else if (pos == 4)
+	    incomeInteract();
+	else if (pos == 38)
+	    luxuryInteract();
 	else if (pos == 0 || pos == 10 || pos == 20){}
 	else if (pos == 30){
 	    this.jailed();
@@ -215,7 +220,7 @@ public class Player{
     public int chanceInteract(ArrayList<Player> playerss){
 	int retInt = 0;
 	System.out.println("Chance!");
-	int x = (int)Math.random()*16;
+	int x = (int)(Math.random()*16);
 	if (x == 8){
 	    System.out.println("Go to jail");
 	    jailed();
@@ -320,7 +325,7 @@ public class Player{
 
     public void communityInteract(ArrayList<Player> playerss){
 	System.out.println("Community Chest!");
-	int x = (int)Math.random()*17;
+	int x = (int)(Math.random()*17);
 	if (x == 8){
 	    System.out.println("Income tax refund - Collect 20");
 	    this.cashIn(20);
