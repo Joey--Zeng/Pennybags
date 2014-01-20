@@ -167,8 +167,8 @@ public class Board {
 	players.add(new Player(two));
 
 	while ( players.size() > 1 ) {
-	    for(int i = 0; i < players.size(); i++){
-		System.out.println("/n" + players.get(i).getName()+"'s Turn");
+	    for(int i = players.size() - 1; i >=  0; i--){
+		System.out.println("\n" + players.get(i).getName()+"'s Turn");
 		Player ref = players.get(i);
 	        if (ref.getInJail()){
 		    System.out.println("Jailed");
@@ -302,7 +302,7 @@ public class Board {
 					prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
 				    }
 				    System.out.println(prompt);
-				    if (! buildings== 0){
+				    if ( buildings != 0){
 					int how = Keyboard.readInt() - sub;
 					ref.buyHouse(board.get(prop), how);
 				    }
