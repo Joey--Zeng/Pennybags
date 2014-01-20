@@ -63,6 +63,12 @@ public class Board {
     	return retStr + "(imput the number)";
     }
 
+    public void removeP(Player p){
+	for(int i: p.getMortgage()){
+	    board.getTile(i).renew();
+	}
+	players.remove(players.indexOf(p));
+    }
 
     public boolean emergencyMort(Player p){
         retBoo = true;
@@ -124,19 +130,25 @@ public class Board {
 	players.add(a);
 	players.add(b);
 
-	while ( players.size() > 0 ) {
+	while ( players.size() > 1 ) {
 	    for(int i = 0; i < players.size() i++){
 		Player ref = players.get(i);
 	        if (ref.inJail()){
-		    if (ref.getCard()){ // NEED getCard()
-			ref.loseCard(); // NEED loseCard()
+		    ref.jailTurn();
+		    if(ref.turnsInJail >= 2){
+			ref.jailBreak();
+		    }
+		    else if (ref.getCard()){ 
+			ref.loseCard();
 			ref.jailBreak();
 			System.out.println("Used card to get out of jail");
 		    }
-		    else{
+		    else{			
 			roll();
-			if(doubs())
+			if(doubs()){
 			    ref.jailBreak();
+			    System.out.println("Doubles! You are out of jail. You may move next turn")
+			}
 			else if (ref.getMoney() >= 50){
 			    System.out.println("Bail for 50? (y/n)");
 			    String ans = Keyboard.readString();
@@ -146,8 +158,8 @@ public class Board {
 			    }
 			}
 		    }
-		}
-		else{
+		}// end inJail block
+		else{ // not in jail / free to move...
 		    doubCount = 0;
 		    for (int dum = 1; dum == 1; dum ++){
 			ref.posAdd(roll());
@@ -165,14 +177,35 @@ public class Board {
 			ref.propertyInteract(board.get(abc), players, dice1, dice2);	
 			if (ref.getMoney() < 0){
 			    if (!emergencyMort(ref)){
-				players.remove(i); // REPLACE THIS WITH METHOD TO FREE ALL PROPS...
+			        removeP(ref); // REPLACE THIS WITH METHOD TO FREE ALL PROPS...
 			    }
 			}
 			if (players.size <= 1){
 			    System.out.println("Game is over. The remaining player has won.");
+			    break;
 			}					      
+		    }// end roll and interact (loops if double)
+		    String yesno = "y";
+		    while (yesno.equals("y")){
+			System.out.println("Do you want to purchase houses(if you have a full set only)? (y/n)");
+			yesno = Keyboard.readString();			
+			System.out.println("Color? 1)Brown  2)Light Blue  3)Pink  4)Orange  5)Red  6)Yellow  7)Green  8)Blue");
+			String color = Keyboard.readString();
+			if (color.equals("1")) {
+			    
+			}
+			else if (color.equals("2")) {}
+			else if (color.equals("3")) {}
+			else if (color.equals("4")) {}
+			else if (color.equals("5")) {}
+			else if (color.equals("6")) {}
+			else if (color.equals("7")) {}
+			else if (color.equals("8")) {}
 		    }
-		}
+			
+			    
+			
+		}// end not-in-jail block (one player's entire turn)
 	    }
 	}
     }

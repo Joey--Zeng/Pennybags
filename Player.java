@@ -119,6 +119,10 @@ public class Player{
         return "You bought " + t.getName();
     }
 
+    public void jailTurn(){
+	turnsInJail++;
+    }
+
 
 
    public String toString() {
