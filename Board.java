@@ -168,7 +168,7 @@ public class Board {
 
 	while ( players.size() > 1 ) {
 	    for(int i = 0; i < players.size(); i++){
-		System.out.println(players.get(i).getName()+"'s Turn");
+		System.out.println("/n" + players.get(i).getName()+"'s Turn");
 		Player ref = players.get(i);
 	        if (ref.getInJail()){
 		    System.out.println("Jailed");
