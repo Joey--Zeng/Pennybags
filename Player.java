@@ -459,6 +459,45 @@ public class Player{
 	return retBoo;
     }
 
+    public boolean checkBrown(){
+	return (propertyOwned.contains(1) &&
+		propertyOwned.contains(3));
+    }
+    public boolean checkLBlue(){
+	return (propertyOwned.contains(6) &&
+		propertyOwned.contains(8) &&
+		propertyOwned.contains(9));
+    }
+    public boolean checkPink(){
+	return (propertyOwned.contains(11) &&
+		propertyOwned.contains(13) &&
+		propertyOwned.contains(14));
+    }
+    public boolean checkOrange(){
+    	return (propertyOwned.contains(16) &&
+		propertyOwned.contains(18) &&
+		propertyOwned.contains(19));
+    }
+    public boolean checkRed(){
+	return (propertyOwned.contains(21) &&
+		propertyOwned.contains(23) &&
+		propertyOwned.contains(24));
+    }
+    public boolean checkYellow(){
+	return (propertyOwned.contains(26) &&
+		propertyOwned.contains(27) &&
+		propertyOwned.contains(29));
+    }
+    public boolean checkGreen(){
+    	return (propertyOwned.contains(31) &&
+		propertyOwned.contains(32) &&
+		propertyOwned.contains(34));
+    }
+    public boolean checkBlue(){
+    	return (propertyOwned.contains(37) &&
+		propertyOwned.contains(39));
+    }
+
 
 }// end class Player
     
