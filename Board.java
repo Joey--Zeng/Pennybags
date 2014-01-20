@@ -225,8 +225,6 @@ public class Board {
 		    }// end roll and interact (loops if double)
 		    String yesno = "y";
 		    while (yesno.equals("y")){
-			System.out.println("Do you want to purchase houses(if you have a full set only)? (y/n)");
-			yesno = Keyboard.readString();	
 			if (yesno.equals("y")){
 			    String options = "Color? ";
 			    if (ref.checkBrown()){
@@ -254,9 +252,11 @@ public class Board {
 			        options += " 8)Blue ";
 			    }
 			    if (options.equals("Color? ")){
-				System.out.println("You don't have any full sets.");
+			        yesno = "n";
 			    }
 			    else {
+				System.out.println("Do you want to purchase houses? (y/n)");
+				yesno = Keyboard.readString();	 		
 				System.out.println(options);  // MIGHT BE HARDER TO GUI THIS... 
 				int color = Keyboard.readInt();
 				int prop = 0;
@@ -295,7 +295,7 @@ public class Board {
 
 				    int buildings = ref.getMoney() / board.get(prop).getHouseCost();
 				    if (buildings == 0){
-					System.out.println("You don't have the money to build here");
+					prompt = "You don't have the money to build here";
 				    }
 				    if(buildings >= 5){}
 				    else{

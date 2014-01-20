@@ -85,13 +85,13 @@ public class Player{
         return amt;
     }
 
-    public void cashIn(int amt){
+    public int cashIn(int amt){
         money += amt;
+	return amt;
     }
 
     public int payOwner(Player p, int payment){
-        p.cashIn(loseMoney(payment));
-        return money;
+        return p.cashIn(loseMoney(payment));
     }
     
     public void jailed(){
@@ -230,6 +230,7 @@ public class Player{
 		System.out.println("Move to nearest RailRoad");
 		int newPos = ((getPos() +5)/10)*10 + 5;
 		this.posAdd(newPos - getPos());
+		retInt = getPos();
 	    }
 	    else if (x > 4){
 		if (x == 6){		    
