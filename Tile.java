@@ -49,6 +49,10 @@ public class Tile {
 	addOn += n;
     }
 
+    public int getHouseCost(){
+	return houseCost;
+    }
+
     public String toString() {
 	String s = "";
 	s += "   " + name + "\n";
@@ -74,7 +78,7 @@ public class Tile {
     
     public int buyHouse(int n){
 	addOn += n;
-	return n*housCost;
+	return n*houseCost;
     }
     
     public int renew(){

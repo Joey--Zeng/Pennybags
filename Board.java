@@ -188,28 +188,94 @@ public class Board {
 		    String yesno = "y";
 		    while (yesno.equals("y")){
 			System.out.println("Do you want to purchase houses(if you have a full set only)? (y/n)");
-			yesno = Keyboard.readString();			
-			System.out.println("Color? 1)Brown  2)Light Blue  3)Pink  4)Orange  5)Red  6)Yellow  7)Green  8)Blue");
-			String color = Keyboard.readString();
-			if (color.equals("1")) {
-			    
-			}
-			else if (color.equals("2")) {}
-			else if (color.equals("3")) {}
-			else if (color.equals("4")) {}
-			else if (color.equals("5")) {}
-			else if (color.equals("6")) {}
-			else if (color.equals("7")) {}
-			else if (color.equals("8")) {}
-		    }
-			
-			    
-			
-		}// end not-in-jail block (one player's entire turn)
-	    }
-	}
-    }
+			yesno = Keyboard.readString();	
+			if (yesno.equals("y")){
+			    String options = "Color? ";
+			    if (ref.checkBrown()){
+				options += " 1)Brown ";
+			    }
+			    if (ref.checkLBlue()){
+				options += " 2)Light Blue ";
+			    }
+			    if (ref.checkPink()){
+				options += " 3)Pink ";
+			    }
+			    if (ref.checkOrange()){
+				options += " 4)Orange ";
+			    }
+			    if (ref.checkRed()){
+				options += " 5)Red ";
+			    }
+			    if (ref.checkYellow()){
+				options += " 6)Yellow ";
+			    }
+			    if (ref.checkGreen()){
+				options += " 7)Green ";
+			    }
+			    if (ref.checkBlue()){
+			        options += " 8)Blue ";
+			    }
+			    if (options.equals("Color? ")){
+				System.out.println("You don't have any full sets.");
+			    }
+			    else {
+				System.out.println(options);  // MIGHT BE HARDER TO GUI THIS... 
+				int color = Keyboard.readInt();
+				int prop = 0;
+				if (color == 1) {
+				    System.out.println("Which property? 1)Mediterranean Ave  3)Baltic Ave");
+				}
+				else if (color == 2) {
+				    System.out.println("Which property? 6)Oriental Ave  7)Vermont Ave  8)Connecticut Ave");
+				}
+				else if (color == 3) {
+				    System.out.println("Which property? 11)St.Charles Place  13)States Ave  14)Virginia Ave");
+				}
+				else if (color == 4) {
+				    System.out.println("Which property? 16)St.James Place  18)Tennessee Ave  19)NY Ave");
+				}
+				else if (color == 5) {
+				    System.out.println("Which property? 21)Kentucky Ace  23)Indiana Ave  24)Illinois Ave");
+				}
+				else if (color == 6) {
+				    System.out.println("Which property? 26)Atlantic Ave  27)Vermont Ave  29)Marvin Gardens");
+				}
+				else if (color == 7) {
+				    System.out.println("Which property? 31)Pacific Ave  32)North Carolina Ave  34)Pennsylvania Ave");
+				}
+				else if (color == 8) {
+				    System.out.println("Which property? 37)Park Place  39)Broadwalk");
+				}	
+				prop = Keyboard.readInt();
+				int sub = board.getTile(prop).getAddOn();
+				if (sub == 5){
+				    System.out.println("Property is maxed already");
+				}
+				else{
+				    String prompt = "1)1 house  2)2 houses 3)3 houses 4)4 houses 5)Hotel   ";
+				    prompt = prompt.substring(sub*11);
 
+				    int buildings = ref.getMoney() / board.getTile(prop).getHouseCost();
+				    if (buildings = 0){
+					System.out.println("You don't have the money to build here");
+				    }
+				    if(buildings >= 5){}
+				    else{
+					prompt = prompt.substring(0, prompt.length()-11*(5-building));
+				    }
+				    System.out.println(prompt);
+				    int how = Keyboard.readInt() - sub;
+				    ref.loseMoney(buyHouse(board.getTile(prop), how));
+				}
+			    }		       			
+			}// end if input = yes
+		    }// ends while loop for houses
+										  			
+		}// end not-in-jail block 
+	    }// end loop block for one person's turn
+	}// end while loop block for one round of turns
+    }
+    
 
 
 
