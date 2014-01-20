@@ -5,7 +5,7 @@ public class Player{
     private String name;
     private String shape;
     private ArrayList<Integer> propertyOwned;
-    private ArrayList<Integer> Mortgage;
+    private ArrayList<Integer> mortgage;
     private int money;
     private int turnsInJail;
     private boolean inJail;
@@ -21,7 +21,7 @@ public class Player{
         turnsInJail = 0;
         inJail = false;
         propertyOwned = new ArrayList<Integer>();
-        Mortgage = new ArrayList<Integer>();        
+        mortgage = new ArrayList<Integer>();        
     }
 
     public Player ( String n ) {
@@ -85,8 +85,8 @@ public class Player{
         money += amt;
     }
 
-    public int payOwner(Player p,int payment){
-        p.getPaid(loseMoney(payment));
+    public int payOwner(Player p, int payment){
+        p.cashIn(loseMoney(payment));
         return money;
     }
     
@@ -112,10 +112,10 @@ public class Player{
 
     public String buy ( Tile t ) {
         if ( t.getCost() > money )
-         return "You don't have enough money.";
+	    return "You don't have enough money.";
         money -= t.getCost();
-        propertyOwned.add( t.getIndex() );
-        t.setOwner(name);
+        propertyOwned.add( t.getPos() );
+        t.setOwner(this);
         return "You bought " + t.getName();
     }
 
@@ -131,9 +131,10 @@ public class Player{
         s += "You have $" + money + "\n";
         s += "You own: \n";
         
-        for ( Tile t : propertyOwned ) {
+	/*       for ( Tile t : propertyOwned ) {
          s += t;
         }
+	*/
         
         return s;
     }
@@ -142,7 +143,7 @@ public class Player{
 	int add = i + 40 - this.getPos();
 	if (add >= 40)
 	    add -= 40;
-	this.addPos(add);
+	this.posAdd(add);
     }
 
     public int propertyInteract(Tile t, ArrayList<Player> playerss, int dice1, int dice2){
@@ -159,7 +160,7 @@ public class Player{
 	}
 
 	else{
-	    if(t.getOwned() && !t.getOwner().getName()equals(name)) {
+	    if(t.getOwned() && !t.getOwner().getName().equals(name)) {
 		if (t.getOwner().getPropertyOwned().contains(t.getPos())){
 		    if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
 			System.out.println( "Paid " + t.getOwner().getName() + " " +
@@ -171,7 +172,7 @@ public class Player{
 		    }
 		    else{
 			System.out.println( "Paid " + t.getOwner().getName() + " " +
-					    payOwner(t.getOwner(),t.calcRent()) );
+					    payOwner(t.getOwner(),t.calculateRent()) );
 		    }
 		}
 	    }// IF money < 0 ................
@@ -208,8 +209,8 @@ public class Player{
 	    System.out.println("Try again, type 1 or 2");
     }
 
-    public int chanceInteract(Arraylist<Players> playerss){
-	retInt = 0;
+    public int chanceInteract(ArrayList<Player> playerss){
+	int retInt = 0;
 	System.out.println("Chance!");
 	int x = (int)Math.random()*16;
 	if (x == 8){
@@ -287,7 +288,7 @@ public class Player{
 		}
 		else {
 		    System.out.println("Take a trip on the Reading(Reading Railroad)");
-		    this.advanceTo(25);
+		    this.advanceTo(5);
 		    retInt = this.getPos();
 		}
 	    }
@@ -310,6 +311,7 @@ public class Player{
 		}
 	    }
 	}
+	return retInt;
     }// end chance
     
 
@@ -324,7 +326,7 @@ public class Player{
 	    if (x < 4){
 		if ( x == 0){
 		    System.out.println("Advance to Go");
-		    this.AdvanceTo(0);		 
+		    this.advanceTo(0);		 
 		}
 		else if (x == 1){
 		    System.out.println("Bank error in your favor - Collect 200!");
@@ -400,8 +402,8 @@ public class Player{
 
     public int utilityPay(Tile t, int a, int b){
         int retInt = 0;
-	if (t.getOwner.getPropertyOwned().contains(12) &&
-	    t.getOwner.getPropertyOwned().contains(28)){
+	if (t.getOwner().getPropertyOwned().contains(12) &&
+	    t.getOwner().getPropertyOwned().contains(28)){
 	    this.payOwner(t.getOwner(), 10*(a+b));
 	    retInt = 10*(a+b);
 	}
@@ -429,12 +431,12 @@ public class Player{
 	return 25*mult;
     }
     
-    public void collect(ArrayList<Players> playerss, int i){
+    public void collect(ArrayList<Player> playerss, int i){
 	for (Player p : playerss){
-	    if (!p.getName.equals(this.getName)){
+	    if (!p.getName().equals(this.getName())){
 		this.cashIn(i);
-		p.loseMoney(i):
-		System.out.println("Collected" + i + "from" + p.getName);
+		p.loseMoney(i);
+		System.out.println("Collected" + i + "from" + p.getName());
 	    }
 	}
     }
@@ -453,7 +455,7 @@ public class Player{
     }
 
     public boolean isBankrupt(){
-	retBoo = false;
+	boolean retBoo = false;
 	if (money <= 0 && propertyOwned.size() == 0)
 	    retBoo = true;
 	return retBoo;

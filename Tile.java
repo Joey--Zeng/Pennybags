@@ -9,19 +9,27 @@ public class Tile {
     private int addOn = 0;
     private boolean owned = false;
 
-    public Tile ( String n, int c ) {
+    public Tile ( String n, int c, int position ) {
 	name = n;
 	cost = c;
+	pos = position;
     }
 
-    public Tile ( String n, int C, int a, int b, int c, int d, int e ) {
+    public Tile ( String n, int C, int hc, int a, int b, int c, int d, int e, int f, int position) {
 	name = n;
 	cost = C;
+	houseCost = hc;
 	rent[0] = a;
 	rent[1] = b;
 	rent[2] = c;
 	rent[3] = d;
 	rent[4] = e;
+	rent[5] = f;
+	pos = position;
+    }
+
+    public Player getOwner(){
+	return owner;
     }
 
     public String getName () {
@@ -32,14 +40,25 @@ public class Tile {
 	return cost;
     }
 
+    /*
     public int getRent () {
 	return rent;
     }
+    */
 
     public int getPos(){
 	return pos;
     }
     
+    public int getAddOn(){
+	return addOn;
+    }
+
+    public boolean getOwned(){
+	return owned;
+    }
+
+
     public void setOwner ( Player n ) {
 	owner = n;
 	owned = true;
@@ -52,12 +71,12 @@ public class Tile {
     public int getHouseCost(){
 	return houseCost;
     }
-
+  
     public String toString() {
 	String s = "";
 	s += "   " + name + "\n";
 	s += "   Cost:" + cost + "\n";
-	s += "   rent:" + rent + "\n";
+	//	s += "   rent:" + rent + "\n";
 	if ( addOn >= 4 ) {
 	    s += "   " + 4 + " houses\n";
 	    s += "   " + ( addOn - 4 ) + " hotels\n";
@@ -81,7 +100,7 @@ public class Tile {
 	return n*houseCost;
     }
     
-    public int renew(){
+    public void renew(){
 	owned = false;
 	addOn = 0;
     }

@@ -28,7 +28,44 @@ public class Board {
     private static Tile PennsylvaniaAve = new Tile( "Pensylvania Avenue", 320 );
     private static Tile ParkPlace = new Tile( "Park Place", 350 );
     private static Tile BoardWalk = new Tile( "BoardWalk", 400 );
+    
+    public Board(){
+	board.add(new Tile("Go", 0, 0));
+	
+	board.add(new Tile("Community Chest", 0, 2));
+	
+	board.add(new Tile("Income Tax", 0 , 4));
+	board.add(new Tile("Reading RR", 0, 5));
+	
+	board.add(new Tile("Chance", 0, 7));    
+	
+	board.add(new Tile("Jail", 0, 10));
+	
+	board.add(new Tile("Electric Company", 150, 12));
+	
+	board.add(new Tile("Pennsylvania RR", 0, 15));
+	
+	board.add(new Tile("Community Chest", 0, 17));
 
+	board.add(new Tile("Free Parking", 0, 20));
+
+	board.add(new Tile("Chance", 0, 22));
+
+	board.add(new Tile("B&O RR", 0, 25));
+
+	board.add(new Tile("Water Works", 150, 28));
+
+	board.add(new Tile("GoToJ", 0, 30));
+	
+	board.add(new Tile("Community Chest", 0, 33));
+
+	board.add(new Tile("Short Line", 0, 35));
+
+	board.add(new Tile("Chance", 0, 36));
+	
+	board.add(new Tile("Luxury Tax", 0, 38));
+    }
+		  
     private int dice1;
     private int dice2;
     private int doubCount;
@@ -131,7 +168,7 @@ public class Board {
 	players.add(b);
 
 	while ( players.size() > 1 ) {
-	    for(int i = 0; i < players.size() i++){
+	    for(int i = 0; i < players.size(); i++){
 		Player ref = players.get(i);
 	        if (ref.inJail()){
 		    ref.jailTurn();
@@ -147,7 +184,7 @@ public class Board {
 			roll();
 			if(doubs()){
 			    ref.jailBreak();
-			    System.out.println("Doubles! You are out of jail. You may move next turn")
+			    System.out.println("Doubles! You are out of jail. You may move next turn");
 			}
 			else if (ref.getMoney() >= 50){
 			    System.out.println("Bail for 50? (y/n)");
@@ -309,11 +346,9 @@ public class Board {
 	    System.out.println("Your status:\n" + b );
 	    */
 
-	}
 
 
 
-    }
 
     public static void main ( String[] args ) {
 	play();
