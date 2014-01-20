@@ -4,8 +4,8 @@ import cs1.Keyboard;
 public class Board {
 
     private static ArrayList<Tile> board;
-    private ArrayList<Player> players;
-
+    private static ArrayList<Player> players;
+    /*
     private static Tile MediterraneanAve = new Tile( "Mediterrannean Avenue", 60 );
     private static Tile BalticAve = new Tile( "Baltic Avenue", 60 );
     private static Tile OrientralAve = new Tile( "Oriental Avenue", 100 );
@@ -28,7 +28,7 @@ public class Board {
     private static Tile PennsylvaniaAve = new Tile( "Pensylvania Avenue", 320 );
     private static Tile ParkPlace = new Tile( "Park Place", 350 );
     private static Tile BoardWalk = new Tile( "BoardWalk", 400 );
-    
+    */
     public Board(){
 	board.add(new Tile("Go", 0, 0));
 	
@@ -66,16 +66,11 @@ public class Board {
 	board.add(new Tile("Luxury Tax", 0, 38));
     }
 		  
-    private int dice1;
-    private int dice2;
-    private int doubCount;
+    private static int dice1;
+    private static int dice2;
+    private static int doubCount;
 
     public static void initialize() {
-	board.add(A);
-	board.add(B);
-	board.add(C);
-	board.add(D);
-	board.add(E);
     }
 
     public static int roll () {
@@ -84,7 +79,7 @@ public class Board {
 	System.out.println("" + dice1 + " " + dice2);
 	return dice1 + dice2;
     }
-    public boolean doubs(){     // 1/6 probability that roll is a double.
+    public static boolean doubs(){     // 1/6 probability that roll is a double.
     	return dice1 == dice2;
     }
     
@@ -100,15 +95,15 @@ public class Board {
     	return retStr + "(imput the number)";
     }
 
-    public void removeP(Player p){
+    public static void removeP(Player p){
 	for(int i: p.getMortgage()){
-	    board.getTile(i).renew();
+	    Board.getTile(i).renew();
 	}
 	players.remove(players.indexOf(p));
     }
 
-    public boolean emergencyMort(Player p){
-        retBoo = true;
+    public static boolean emergencyMort(Player p){
+        boolean retBoo = true;
         while (p.getMoney() < 0){
 
 	    if (p.isBankrupt()){
@@ -123,21 +118,18 @@ public class Board {
 	    
 	    if (p.getPropertyOwned().indexOf(i) > -1){
 		if (getTile(i).getAddOn() >4){	 
-		    int cashh = getTile(i).sellHouses(5);
-		    p.cashIn(cashh);
-		    System.out.println("Got " + cashh);
+		    System.out.println("Got " + p.sellHouse(getTile(i), 5));
 		}
 		else if (Board.getTile(i).getAddOn() > 1){
 		    System.out.println("How many houses to sell?");
 		    int h = Keyboard.readInt();		 
-		    int cash = getTile(i).sellHouses(x);
-		    p.cashIn(cash);
-		    System.out.println("Got " + cash);
+
+		    System.out.println("Got " + p.sellHouse(getTile(i), h));
 		}
 		else{
-		    mort(getTile(i), p.getProperyOwned().indexOf(i));
+		    p.mort(getTile(i), p.getPropertyOwned().indexOf(i));
 		    System.out.println("Mortgaged " + getTile(i).getName() +
-				       "for " + getTile(i).getMortgage());
+				       "for " + getTile(i).getCost()/2);
 		}
 	    }
 	    else
@@ -170,9 +162,9 @@ public class Board {
 	while ( players.size() > 1 ) {
 	    for(int i = 0; i < players.size(); i++){
 		Player ref = players.get(i);
-	        if (ref.inJail()){
+	        if (ref.getInJail()){
 		    ref.jailTurn();
-		    if(ref.turnsInJail >= 2){
+		    if(ref.getTurnsInJail() >= 2){
 			ref.jailBreak();
 		    }
 		    else if (ref.getCard()){ 
@@ -217,7 +209,7 @@ public class Board {
 			        removeP(ref); // REPLACE THIS WITH METHOD TO FREE ALL PROPS...
 			    }
 			}
-			if (players.size <= 1){
+			if (players.size() <= 1){
 			    System.out.println("Game is over. The remaining player has won.");
 			    break;
 			}					      
@@ -284,7 +276,7 @@ public class Board {
 				    System.out.println("Which property? 37)Park Place  39)Broadwalk");
 				}	
 				prop = Keyboard.readInt();
-				int sub = board.getTile(prop).getAddOn();
+				int sub = board.get(prop).getAddOn();
 				if (sub == 5){
 				    System.out.println("Property is maxed already");
 				}
@@ -292,17 +284,17 @@ public class Board {
 				    String prompt = "1)1 house  2)2 houses 3)3 houses 4)4 houses 5)Hotel   ";
 				    prompt = prompt.substring(sub*11);
 
-				    int buildings = ref.getMoney() / board.getTile(prop).getHouseCost();
-				    if (buildings = 0){
+				    int buildings = ref.getMoney() / board.get(prop).getHouseCost();
+				    if (buildings == 0){
 					System.out.println("You don't have the money to build here");
 				    }
 				    if(buildings >= 5){}
 				    else{
-					prompt = prompt.substring(0, prompt.length()-11*(5-building));
+					prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
 				    }
 				    System.out.println(prompt);
 				    int how = Keyboard.readInt() - sub;
-				    ref.loseMoney(buyHouse(board.getTile(prop), how));
+				    ref.buyHouse(board.get(prop), how);
 				}
 			    }		       			
 			}// end if input = yes
