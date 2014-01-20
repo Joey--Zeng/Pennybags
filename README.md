@@ -1,4 +1,4 @@
-Pennybags i made new issue
+Pennybags TRY RUNNING IN TERMINAL very crude UI right now
 =========
 
 Johnathan Yan
