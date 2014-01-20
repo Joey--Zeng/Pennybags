@@ -2,6 +2,7 @@ public class Tile {
 
     private Player owner;
     private String name;
+    private int pos;
     private int cost;
     private int[] rent = {0,0,0,0,0};
     private int houseCost;
@@ -35,7 +36,10 @@ public class Tile {
 	return rent;
     }
 
-
+    public int getPos(){
+	return pos;
+    }
+    
     public void setOwner ( Player n ) {
 	owner = n;
 	owned = true;
@@ -66,6 +70,16 @@ public class Tile {
     public int sellHouse (int n) {
 	addOn -= n;
 	return n * houseCost;
+    }
+    
+    public int buyHouse(int n){
+	addOn += n;
+	return n*housCost;
+    }
+    
+    public int renew(){
+	owned = false;
+	addOn = 0;
     }
 
 
