@@ -302,8 +302,10 @@ public class Board {
 					prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
 				    }
 				    System.out.println(prompt);
-				    int how = Keyboard.readInt() - sub;
-				    ref.buyHouse(board.get(prop), how);
+				    if (! buildings== 0){
+					int how = Keyboard.readInt() - sub;
+					ref.buyHouse(board.get(prop), how);
+				    }
 				}
 			    }		       			
 			}// end if input = yes
