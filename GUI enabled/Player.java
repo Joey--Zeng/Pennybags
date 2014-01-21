@@ -180,19 +180,21 @@ public class Player extends JFrame{
 	}
 
 	else{
-	    if(t.getOwned() && !t.getOwner().getName().equals(name)) {
-		if (t.getOwner().getPropertyOwned().contains(t.getPos())){
-		    if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
-			JOptionPane.showMessageDialog(test.roll,  name + " paid " + t.getOwner().getName() + " $" +
-					    utilityPay(t, dice1, dice2));
-		    }
-		    else if(t.getPos() % 10 == 5){ // then its a RR
-			JOptionPane.showMessageDialog(test.roll, name + " paid " + t.getOwner().getName() + " $" +
-					    RRPay(t) );		    
-		    }
-		    else{
-			JOptionPane.showMessageDialog(test.roll, name + " paid " + t.getOwner().getName() + " $" +
-					    payOwner(t.getOwner(),t.calculateRent()) );
+	    if(t.getOwned() ) {
+		if (!t.getOwner().getName().equals(name)){
+		    if (t.getOwner().getPropertyOwned().contains(t.getPos())){
+			if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
+			    JOptionPane.showMessageDialog(test.roll,  name + " paid " + t.getOwner().getName() + " $" +
+							  utilityPay(t, dice1, dice2));
+			}
+			else if(t.getPos() % 10 == 5){ // then its a RR
+			    JOptionPane.showMessageDialog(test.roll, name + " paid " + t.getOwner().getName() + " $" +
+							  RRPay(t) );		    
+			}
+			else{
+			    JOptionPane.showMessageDialog(test.roll, name + " paid " + t.getOwner().getName() + " $" +
+							  payOwner(t.getOwner(),t.calculateRent()) );
+			}
 		    }
 		}
 	    }// IF money < 0 ................
