@@ -18,33 +18,9 @@ public class Board extends JFrame{
     private static ArrayList<Tile> board;
     private static ArrayList<Player> players;
     public static ImageIcon img;
-    private static boolean rollBoo;
-    private static boolean turnBoo;
+    private static int i; 
 
-    /*
-    private static Tile MediterraneanAve = new Tile( "Mediterrannean Avenue", 60 );
-    private static Tile BalticAve = new Tile( "Baltic Avenue", 60 );
-    private static Tile OrientralAve = new Tile( "Oriental Avenue", 100 );
-    private static Tile VermontAve = new Tile( "Vermont Avenue", 100 );
-    private static Tile ConneticutAve = new Tile( "Conneticut Avenue", 120 );
-    private static Tile StCharlesPlace = new Tile( "St. Charles Place", 140 );
-    private static Tile StatesAve = new Tile( "States Avenue", 140 );
-    private static Tile VirginiaAve = new Tile( "Virginia Avenue", 160 );
-    private static Tile StJamesPlace = new Tile( "St. James Place", 180 );
-    private static Tile TennesseeAve = new Tile( "Tennessee Avenue", 180 );
-    private static Tile NewYorkAve = new Tile( "New York Avenue", 200 );
-    private static Tile KentuckyAve = new Tile( "Kentucky Avenue", 220 );
-    private static Tile IndianaAve = new Tile( "Indiana Avenue", 220 );
-    private static Tile IllinoisAve = new Tile( "Illinois Avenue", 240 );
-    private static Tile AtlanticAve = new Tile( "Atlantic Avenue", 260 );
-    private static Tile VentnorAve = new Tile( "Ventnor Avenue", 260 );
-    private static Tile MarvinAve = new Tile( "Marvin Avenue", 280 );
-    private static Tile PacificAve = new Tile( "Pacific Avenue", 300 );
-    private static Tile NorthCarolinaAve = new Tile( "North Carolina Avenue", 300 );
-    private static Tile PennsylvaniaAve = new Tile( "Pensylvania Avenue", 320 );
-    private static Tile ParkPlace = new Tile( "Park Place", 350 );
-    private static Tile BoardWalk = new Tile( "BoardWalk", 400 );
-    */
+
     public Board(){
 	players = new ArrayList<Player>();
 	board = new ArrayList<Tile>();
@@ -95,13 +71,8 @@ public class Board extends JFrame{
     private static int dice2;
     private static int doubCount;
 
-    public static void rooll(){
-	rollBoo = false;
-    }
 
     public static int roll () {
-	rollBoo = true; // comment these two if you want to work
-	while (rollBoo){}
 	action.append("\nRolling");
 	dice1 = (int) (Math.random() * 6) + 1;
 	dice2 = (int) (Math.random() * 6) + 1;
@@ -575,6 +546,188 @@ public class Board extends JFrame{
 
 
 
+    public static void rooll(){
+	listModel.set(2, players.get(0) + " : $" + players.get(0).getMoney());
+		listModel.set(3, "Property Owned: " + players.get(0).getPropertyOwned());
+		listModel.set(4, players.get(1) + " : $" + players.get(1).getMoney());
+		listModel.set(5, "Property Owned: " + players.get(1).getPropertyOwned());
+		action.append("\n\n" + players.get(i).getName()+"'s Turn");
+		Player ref = players.get(i);
+		
+	        if (ref.getInJail()){
+		    action.append("\nJailed");
+			JOptionPane.showMessageDialog(roll, ref.getName() + " is jailed.");
+		    ref.jailTurn();
+		    if(ref.getTurnsInJail() >= 2){
+			ref.jailBreak();
+		    }
+		    else if (ref.getCard()){ 
+			ref.loseCard();
+			ref.jailBreak();
+			action.append("Used card to get out of jail");
+		    }
+		    else{			
+			roll();
+			if(doubs()){
+			    ref.jailBreak();
+			    action.append("Snake Eyes! You are out of jail. You may move next turn.");
+				JOptionPane.showMessageDialog(roll, "Snake Eyes! You are out of jail. You may move next turn.");
+			}
+			else if (ref.getMoney() >= 50){
+			    int ans = JOptionPane.showConfirmDialog(roll, "Bail for 50?", "Bail", JOptionPane.YES_NO_OPTION);
+			    if (ans == JOptionPane.YES_OPTION){
+					ref.loseMoney(50);
+					ref.jailBreak();
+			    }
+			}
+		    }
+		}// end inJail block
+		else{ // not in jail / free to move...
+		    doubCount = 0;
+		    for (int dum = 1; dum == 1; dum ++){
+				buttons.get(ref.getPos()).setIcon(null);
+				buttons.get(ref.getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
+				ref.posAdd(roll());
+				
+				if (i == 0){
+					img = new ImageIcon("p1.jpg");
+				}
+
+				else{
+					img = new ImageIcon("p2.gif");
+				}
+
+				buttons.get(ref.getPos()).setIcon(img);
+				buttons.get(ref.getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
+								
+				
+			int abc = ref.propertyInteract(board.get(ref.getPos()), players, dice1, dice2);
+			ref.propertyInteract(board.get(abc), players, dice1, dice2);	
+			buttons.get(ref.getPos()).setIcon(null);
+			buttons.get(ref.getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
+			buttons.get(ref.getPos()).setIcon(img);
+			buttons.get(ref.getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
+			if (dice1 == dice2){
+			    if (doubCount >= 2){
+				ref.jailed();
+				break;
+			    }
+			    else{
+				doubCount ++;
+				dum--;
+				JOptionPane.showMessageDialog(roll, "Doubles! Roll again.");
+			    }
+			}
+			
+			if (ref.getMoney() < 0){
+			    if (!emergencyMort(ref)){
+			        removeP(ref); // REPLACE THIS WITH METHOD TO FREE ALL PROPS...
+			    }
+			}
+			if (players.size() <= 1){
+			    JOptionPane.showMessageDialog(roll, "Game is over. The remaining player has won.");
+			    break;
+			}					      
+		    }// end roll and interact (loops if double)
+		    String yesno = "y";
+		    while (yesno.equals("y")){
+			if (yesno.equals("y")){
+			    String options = "Color? ";
+			    if (ref.checkBrown()){
+				options += " 1)Brown ";
+			    }
+			    if (ref.checkLBlue()){
+				options += " 2)Light Blue ";
+			    }
+			    if (ref.checkPink()){
+				options += " 3)Pink ";
+			    }
+			    if (ref.checkOrange()){
+				options += " 4)Orange ";
+			    }
+			    if (ref.checkRed()){
+				options += " 5)Red ";
+			    }
+			    if (ref.checkYellow()){
+				options += " 6)Yellow ";
+			    }
+			    if (ref.checkGreen()){
+				options += " 7)Green ";
+			    }
+			    if (ref.checkBlue()){
+			        options += " 8)Blue ";
+			    }
+			    if (options.equals("Color? ")){
+			        yesno = "n";
+			    }
+			    else {
+				int ans = JOptionPane.showConfirmDialog(roll, "Do you want to purchase houses?", "Purchase House?", JOptionPane.YES_NO_OPTION);
+			    if (ans == JOptionPane.YES_OPTION){ 		
+				JOptionPane.showMessageDialog(roll, options);  // STILL NEED TO GUI THIS.... Just make a text box
+				int color = Keyboard.readInt();   // STILL NEED TO GUI THIS.... and the input is int called "color"
+				int prop = 0;
+				if (color == 1) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 1)Mediterranean Ave  3)Baltic Ave") );
+				}
+				else if (color == 2) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 6)Oriental Ave  7)Vermont Ave  8)Connecticut Ave"));
+				}
+				else if (color == 3) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 11)St.Charles Place  13)States Ave  14)Virginia Ave"));
+				}
+				else if (color == 4) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 16)St.James Place  18)Tennessee Ave  19)NY Ave"));
+				}
+				else if (color == 5) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 21)Kentucky Ace  23)Indiana Ave  24)Illinois Ave"));
+				}
+				else if (color == 6) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 26)Atlantic Ave  27)Vermont Ave  29)Marvin Gardens"));
+				}
+				else if (color == 7) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 31)Pacific Ave  32)North Carolina Ave  34)Pennsylvania Ave"));
+				}
+				else if (color == 8) {
+				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 37)Park Place  39)Broadwalk"));
+				}	
+				int sub = board.get(prop).getAddOn();
+				if (sub == 5){
+				    JOptionPane.showMessageDialog(null, "Property is maxed already");
+				}
+				else{
+				    String prompt = "1)1 house  2)2 houses 3)3 houses 4)4 houses 5)Hotel   ";
+				    prompt = prompt.substring(sub*11);
+
+				    int buildings = ref.getMoney() / board.get(prop).getHouseCost();
+				    if (buildings == 0){
+					prompt = "You don't have the money to build here";
+				    }
+				    if(buildings >= 5){}
+				    else{
+					prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
+				    }
+				    JOptionPane.showMessageDialog(null, prompt);
+				    int how = Keyboard.readInt() - sub;
+				    ref.buyHouse(board.get(prop), how);
+				}
+			    }		       			
+			    }// end if input = yes
+			}// ends while loop for houses
+			
+		    }// end not-in-jail block 
+		}// end loop block for one person's turn
+		if (i == 0){
+		    i = players.size()-1;
+		}
+		else{ 
+		    i--;
+		}
+    }
+
+    public static void updateL(){}
+	
+
+
     public static void play () { 
 	
 	String one = JOptionPane.showInputDialog(roll, "Player 1, what's your name?", "Player 1");
@@ -582,6 +735,9 @@ public class Board extends JFrame{
 
 	players.add(new Player(one));
 	players.add(new Player(two));
+	int i = players.size()-1;
+
+	/*
 	while ( players.size() > 1 ) {
 	    for(int i = 0; i < players.size(); i++){
 		listModel.set(2, one + " : $" + players.get(0).getMoney());
@@ -693,8 +849,8 @@ public class Board extends JFrame{
 			    else {
 				int ans = JOptionPane.showConfirmDialog(roll, "Do you want to purchase houses?", "Purchase House?", JOptionPane.YES_NO_OPTION);
 			    if (ans == JOptionPane.YES_OPTION){ 		
-				JOptionPane.showMessageDialog(roll, options);  // MIGHT BE HARDER TO GUI THIS... 
-				int color = Keyboard.readInt();
+				JOptionPane.showMessageDialog(roll, options);  // STILL NEED TO GUI THIS.... Just make a text box
+				int color = Keyboard.readInt();   // STILL NEED TO GUI THIS.... and the input is int called "color"
 				int prop = 0;
 				if (color == 1) {
 				    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 1)Mediterranean Ave  3)Baltic Ave") );
@@ -747,8 +903,9 @@ public class Board extends JFrame{
 		}// end not-in-jail block 
 	    }// end loop block for one person's turn
 	}// end while loop block for one round of turns
-    }
 	}
+	*/
+    }
     
 
 

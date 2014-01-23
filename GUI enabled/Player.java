@@ -41,9 +41,11 @@ public class Player extends JFrame{
     public String getName(){
         return name;
     }
+    /*
     public String getShape(){
         return shape;
     }
+    */
     public ArrayList<Integer> getPropertyOwned(){
         return propertyOwned;
     }
