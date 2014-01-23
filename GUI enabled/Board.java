@@ -7,17 +7,20 @@ import java.awt.event.KeyEvent;
 import java.awt.*;
 
 public class Board extends JFrame{
-	private JFrame frame; // top level frame
-	private static JPanel panel; // panel for buttons and misc
-	private JPanel bgPanel; // panel for monopoly board
-	public static JPanel roll; // roll button
-	private static DefaultListModel listModel; // list
-	private JList list; // list holder
-	public static JTextArea action;
-	public static ArrayList<JButton> buttons;
+    private JFrame frame; // top level frame
+    private static JPanel panel; // panel for buttons and misc
+    private JPanel bgPanel; // panel for monopoly board
+    public static JPanel roll; // roll button
+    private static DefaultListModel listModel; // list
+    private JList list; // list holder
+    public static JTextArea action;
+    public static ArrayList<JButton> buttons;
     private static ArrayList<Tile> board;
     private static ArrayList<Player> players;
-	private static ImageIcon img;
+    public static ImageIcon img;
+    private static boolean rollBoo;
+    private static boolean turnBoo;
+
     /*
     private static Tile MediterraneanAve = new Tile( "Mediterrannean Avenue", 60 );
     private static Tile BalticAve = new Tile( "Baltic Avenue", 60 );
@@ -92,8 +95,13 @@ public class Board extends JFrame{
     private static int dice2;
     private static int doubCount;
 
+    public static void rooll(){
+	rollBoo = false;
+    }
 
     public static int roll () {
+	rollBoo = true; // comment these two if you want to work
+	while (rollBoo){}
 	action.append("\nRolling");
 	dice1 = (int) (Math.random() * 6) + 1;
 	dice2 = (int) (Math.random() * 6) + 1;
@@ -474,9 +482,15 @@ public class Board extends JFrame{
 				 */
 				
 				//create space for aesthetic purpose
-				JButton space = new JButton("");
+				JButton space = new JButton("Roll the dice!");
 				//space.setPreferredSize(new Dimension(100,100));
-				space.setVisible(false);
+				space.setVisible(true);
+				space.setToolTipText("Rolls the dice.");
+				space.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						rooll();
+					}
+				});
 				
 				//create roll button
 				JButton newGame = new JButton("Start Game!");
@@ -490,9 +504,9 @@ public class Board extends JFrame{
 				});
 				
 				//adds roll button
-				panel.add(newGame);	
-				panel.add(roll);	
+				panel.add(newGame);   
 				panel.add(space);
+				panel.add(roll);
 				//panel.add(test);	
 		//========================================================================================================
 		
@@ -579,7 +593,7 @@ public class Board extends JFrame{
 		
 	        if (ref.getInJail()){
 		    action.append("\nJailed");
-			JOptionPane.showMessageDialog(roll, ref.getName() + "is jailed.");
+			JOptionPane.showMessageDialog(roll, ref.getName() + " is jailed.");
 		    ref.jailTurn();
 		    if(ref.getTurnsInJail() >= 2){
 			ref.jailBreak();

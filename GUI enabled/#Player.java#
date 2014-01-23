@@ -18,12 +18,12 @@ public class Player extends JFrame{
     private int pos;
     private int addOns;
     private boolean card;
-	private static Board test;
+    private static Board test;
 
 
     public Player () {
         name = "player 1";
-		shape = "circle";
+	shape = "circle";
         money = 1500;
         pos = 0;
         turnsInJail = 0;
@@ -79,14 +79,10 @@ public class Player extends JFrame{
     }
 
     public int posAdd(int a){
-		test.buttons.get(getPos()).setIcon(null);
-		test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         pos += a;
         if (pos >= 40){
 	    pos = pos % 40;
 	    money += 200;
-		test.buttons.get(getPos()).setIcon(test.img);
-		test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         }
         return pos;
     }
