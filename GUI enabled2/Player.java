@@ -86,7 +86,7 @@ public class Player extends JFrame{
         pos += a;
         if (pos >= 40){
 	    pos = pos % 40;
-	    money += 200;
+	    money += 100;
 		test.buttons.get(getPos()).setIcon(test.img);
 		test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         }
@@ -442,7 +442,7 @@ public class Player extends JFrame{
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    public int RRPay(Tile t){
+    public int RRPay(Tile t){ 
 	int retInt = 0;
 	int mult = 1;
 	if (t.getOwner().getPropertyOwned().contains(5))
