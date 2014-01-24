@@ -121,26 +121,59 @@ public class Player extends JFrame{
 
     public void mort(Tile T, int i){
 	cashIn(T.getCost()/2);
-	mortgage.add(propertyOwned.remove(i));
+	int add = propertyOwned.remove(i);
+	for (int a = mortgage.size(); a >= 0; a--){
+	    if (a == 0){
+		mortgage.add(0,add);
+		break;
+	    }
+	    else if (mortgage.get(a-1) < add){
+		mortgage.add(a,add);
+		break;
+	    }
+	}
+	//mortgage.add(propertyOwned.remove(i));
     }
     
     public void deMort(Tile T, int i){
 	loseMoney(T.getCost()/2);
-	propertyOwned.add(mortgage.remove(i));      
+	int add = mortgage.remove(i);
+	for (int a = propertyOwned.size(); a >= 0; a--){
+	    if (a == 0){
+		propertyOwned.add(0,add);
+		break;
+	    }
+	    else if (propertyOwned.get(a-1) < add){
+		propertyOwned.add(a,add);
+		break; 
+	    }
+	}
+	    //propertyOwned.add(mortgage.remove(i));      
     }
 
     public String buy ( Tile t ) {
         if ( t.getCost() > money ){
-			test.action.append("\nYou don't have enough money.");
-			return "You don't have enough money.";
+	    test.action.append("\nYou don't have enough money.");
+	    return "You don't have enough money.";
+	}
+	else{
+	    money -= t.getCost();
+	    int add = t.getPos();
+	    for (int a = propertyOwned.size(); a >= 0; a--){
+		if (a == 0){
+		    propertyOwned.add(0, add);
+		    break;
 		}
-		else{
-			money -= t.getCost();
-			propertyOwned.add( t.getPos() );
-			t.setOwner(this);
-			test.action.append("\nYou bought " + t.getName());
-			return "You bought " + t.getName();
-			}
+		else if (propertyOwned.get(a-1) < add){
+		    propertyOwned.add(a,add);
+		    break;
+		}
+	    }
+	    //propertyOwned.add( t.getPos() );
+	    t.setOwner(this);
+	    test.action.append("\nYou bought " + t.getName());
+	    return "You bought " + t.getName();
+	}
     }
 
     public void jailTurn(){
