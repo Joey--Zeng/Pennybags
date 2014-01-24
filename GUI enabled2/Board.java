@@ -161,16 +161,6 @@ public class Board extends JFrame{
 				dropDown.setMnemonic(KeyEvent.VK_M);
 				dropDown.setToolTipText("ALT + M");
 				
-				//create options inside dropDown
-				JMenuItem start = new JMenuItem("Start"); // Start button
-				start.setMnemonic(KeyEvent.VK_S);
-				start.setToolTipText("Start a new game! (ALT + S)");
-				start.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent event) {
-						play();
-					}
-				});
-				
 				JMenuItem exit = new JMenuItem("Exit"); // Exit button
 				exit.setMnemonic(KeyEvent.VK_E);
 				exit.setToolTipText("Close this program. (ALT + E)");
@@ -195,7 +185,6 @@ public class Board extends JFrame{
 				 });
 				
 				//add options
-				dropDown.add(start);
 				dropDown.add(credit);
 				dropDown.add(exit);
 				
