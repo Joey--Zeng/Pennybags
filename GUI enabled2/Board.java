@@ -758,7 +758,7 @@ public class Board extends JFrame{
 		    prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
 		}
 		int _how = Integer.parseInt(JOptionPane.showInputDialog(null, prompt));
-		ref.buyHouse(board.get(prop), _how);
+		ref.buyHouse(board.get(prop), _how - sub);
 	    }
 	}
 
