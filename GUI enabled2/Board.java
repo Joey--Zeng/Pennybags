@@ -715,7 +715,7 @@ public class Board extends JFrame{
 	if (options.equals("Color? ")){
 	    options = "You have no full sets";
 		}		
-	int color = Integer.parseInt( JOptionPane.showInputDialog(roll, options) );  // STILL NEED TO GUI THIS.... Just make a text box
+	int color = Integer.parseInt( JOptionPane.showInputDialog(roll, options) ); 
 	int prop = 0;
 	if (color == 1) {
 	    prop = Integer.parseInt( JOptionPane.showInputDialog(roll, "Which property? 1)Mediterranean Ave  3)Baltic Ave") );
