@@ -304,7 +304,7 @@ public class Board {
 				    System.out.println(prompt);
 				    if ( buildings != 0){
 					int how = Keyboard.readInt() - sub;
-					ref.buyHouse(board.get(prop), how - sub);
+					ref.buyHouse(board.get(prop), how);
 				    }
 				}
 			    }		       			
