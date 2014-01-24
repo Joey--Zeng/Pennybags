@@ -1,7 +1,13 @@
 import java.util.ArrayList;
 import cs1.Keyboard;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.*;
 
-public class Player{
+public class Player extends JFrame{
+
     private String name;
     private String shape;
     private ArrayList<Integer> propertyOwned;
@@ -12,6 +18,7 @@ public class Player{
     private int pos;
     private int addOns;
     private boolean card;
+	private static Board test;
 
 
     public Player () {
@@ -34,9 +41,11 @@ public class Player{
     public String getName(){
         return name;
     }
+    /*
     public String getShape(){
         return shape;
     }
+    */
     public ArrayList<Integer> getPropertyOwned(){
         return propertyOwned;
     }
@@ -72,10 +81,14 @@ public class Player{
     }
 
     public int posAdd(int a){
+		test.buttons.get(getPos()).setIcon(null);
+		test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         pos += a;
         if (pos >= 40){
 	    pos = pos % 40;
-	    money += 200;
+	    money += 100;
+		test.buttons.get(getPos()).setIcon(test.img);
+		test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         }
         return pos;
     }
@@ -95,6 +108,8 @@ public class Player{
     }
     
     public void jailed(){
+	test.buttons.get(getPos()).setIcon(null);
+	test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         pos = 10;
         inJail = true;
         turnsInJail = 0;
@@ -106,21 +121,59 @@ public class Player{
 
     public void mort(Tile T, int i){
 	cashIn(T.getCost()/2);
-	mortgage.add(propertyOwned.remove(i));
+	int add = propertyOwned.remove(i);
+	for (int a = mortgage.size(); a >= 0; a--){
+	    if (a == 0){
+		mortgage.add(0,add);
+		break;
+	    }
+	    else if (mortgage.get(a-1) < add){
+		mortgage.add(a,add);
+		break;
+	    }
+	}
+	//mortgage.add(propertyOwned.remove(i));
     }
     
     public void deMort(Tile T, int i){
 	loseMoney(T.getCost()/2);
-	propertyOwned.add(mortgage.remove(i));      
+	int add = mortgage.remove(i);
+	for (int a = propertyOwned.size(); a >= 0; a--){
+	    if (a == 0){
+		propertyOwned.add(0,add);
+		break;
+	    }
+	    else if (propertyOwned.get(a-1) < add){
+		propertyOwned.add(a,add);
+		break; 
+	    }
+	}
+	    //propertyOwned.add(mortgage.remove(i));      
     }
 
     public String buy ( Tile t ) {
-        if ( t.getCost() > money )
+        if ( t.getCost() > money ){
+	    test.action.append("\nYou don't have enough money.");
 	    return "You don't have enough money.";
-        money -= t.getCost();
-        propertyOwned.add( t.getPos() );
-        t.setOwner(this);
-        return "You bought " + t.getName();
+	}
+	else{
+	    money -= t.getCost();
+	    int add = t.getPos();
+	    for (int a = propertyOwned.size(); a >= 0; a--){
+		if (a == 0){
+		    propertyOwned.add(0, add);
+		    break;
+		}
+		else if (propertyOwned.get(a-1) < add){
+		    propertyOwned.add(a,add);
+		    break;
+		}
+	    }
+	    //propertyOwned.add( t.getPos() );
+	    t.setOwner(this);
+	    test.action.append("\nYou bought " + t.getName());
+	    return "You bought " + t.getName();
+	}
     }
 
     public void jailTurn(){
@@ -168,36 +221,36 @@ public class Player{
 	}
 
 	else{
-	    if(t.getOwned()) {
-		if(!t.getOwner().getName().equals(name)){
+	    if(t.getOwned() ) {
+		if (!t.getOwner().getName().equals(name)){
 		    if (t.getOwner().getPropertyOwned().contains(t.getPos())){
 			if(t.getPos() == 12 || t.getPos() == 28){ // then its a utility
-			    System.out.println( "Paid " + t.getOwner().getName() + " " +
-						utilityPay(t, dice1, dice2));
+			    JOptionPane.showMessageDialog(test.roll,  name + " paid " + t.getOwner().getName() + " $" +
+							  utilityPay(t, dice1, dice2));
 			}
 			else if(t.getPos() % 10 == 5){ // then its a RR
-			    System.out.println( "Paid " + t.getOwner().getName() + " " +
-						RRPay(t) );		    
+			    JOptionPane.showMessageDialog(test.roll, name + " paid " + t.getOwner().getName() + " $" +
+							  RRPay(t) );		    
 			}
 			else{
-			    System.out.println( "Paid " + t.getOwner().getName() + " " +
-						payOwner(t.getOwner(),t.calculateRent()) );
+			    JOptionPane.showMessageDialog(test.roll, name + " paid " + t.getOwner().getName() + " $" +
+							  payOwner(t.getOwner(),t.calculateRent()) );
 			}
 		    }
 		}
 	    }// IF money < 0 ................
 	    else{
 		if (money > t.getCost()){
-		    System.out.println("Buy " + t.getName() + " for "
-				       + t.getCost() + "?(y/n)");
-		    String ans = Keyboard.readString();
-		    if (ans.equals("y"))
-			System.out.println( buy(t));
+			int ans = JOptionPane.showConfirmDialog(test.roll, "Buy " + t.getName() + " for "
+				       + t.getCost() + "?", "Purchase House?", JOptionPane.YES_NO_OPTION);
+			if (ans == JOptionPane.YES_OPTION){ 
+				System.out.println( buy(t));
 		}
 	    }
 	}
-	return retInt;
     }
+	return retInt;
+	}
 
 
     public void jailInteract(){
@@ -209,27 +262,24 @@ public class Player{
     }
     
     public void incomeInteract(){
-	System.out.println("Income tax! Pay 1)10% or 2)200");
-        String a = Keyboard.readString();
-	if (a.equals("1"))
+	String[] options = {"10%", "200"};
+	int a = JOptionPane.showOptionDialog(test.roll, "Income tax! Pay 10% or 200", "Income Tax!", 0, 0, null, options, "10%");
+	if (a == 0)
 	    this.loseMoney((int)(this.getMoney()/10));
-	else if (a.equals("2"))
-	    this.loseMoney(200);
 	else
-	    System.out.println("Try again, type 1 or 2");
+	    this.loseMoney(200);
     }
 
     public int chanceInteract(ArrayList<Player> playerss){
 	int retInt = 0;
-	System.out.println("Chance!");
 	int x = (int)(Math.random()*16);
 	if (x == 8){
-	    System.out.println("Go to jail");
+	    JOptionPane.showMessageDialog(test.roll, "Chance! Go to jail");
 	    jailed();
 	}
 	else if (x < 8){
 	    if (x == 4){
-		System.out.println("Move to nearest RailRoad");
+		JOptionPane.showMessageDialog(test.roll, "Chance! Move to nearest RailRoad");
 		int newPos = ((getPos() +5)/10)*10 + 5;
 		this.posAdd(newPos - getPos());
 		retInt = getPos();
@@ -237,14 +287,14 @@ public class Player{
 	    else if (x > 4){
 		if (x == 6){		    
 		    card = true;
-		    System.out.println("Get Out of Jail Free card");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Get Out of Jail Free card");
 		}
 		else if (x == 5){
-		    System.out.println("Bank pays you dividend of 50!");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Bank pays you dividend of 50!");
 		    this.cashIn(50);
 		}
 		else{ // x must == 7
-		    System.out.println("Go back three spaces.");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Go back three spaces.");
 		    this.posAdd(-3);
 		    retInt = this.getPos();
 
@@ -252,7 +302,7 @@ public class Player{
 	    }
 	    else{ // x < 4
 		if (x == 2){
-		    System.out.println("Advance to St. Charles Place");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Advance to St. Charles Place");
 		    int add = 51 - this.getPos();
 		    if (add >= 40)
 			add -= 40;
@@ -260,11 +310,11 @@ public class Player{
 		    retInt = 11;
 		}
 		else if (x == 0){
-		    System.out.println("Advance to Go");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Advance to Go");
 		    this.posAdd(40 - this.getPos());
 		}
 		else if (x == 1){
-		    System.out.println("Advance to Illinois Ave");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Advance to Illinois Ave");
 		    int add = 64 - this.getPos();
 		    if (add >= 40)
 			add -= 40;
@@ -272,7 +322,7 @@ public class Player{
 		    retInt = 24;
 		}
 		else{
-		    System.out.println("Advance to nearest Utility");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Advance to nearest Utility");
 		    if (this.getPos() > 12 && this.getPos() < 28)
 			this.advanceTo(28);
 		    else
@@ -283,40 +333,40 @@ public class Player{
 	}
 	else{
 	    if(x == 12){
-		System.out.println("Take a walk to the Boardwalk");
+		JOptionPane.showMessageDialog(test.roll, "Chance! Take a walk to the Boardwalk");
 		this.advanceTo(39);
 		retInt = this.getPos();
 	    }
 	    else if (x < 12){
 		if (x == 10){
-		    System.out.println("Pay poor tax of 15");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Pay poor tax of 15");
 		    this.loseMoney(15);
 		}
 		else if (x == 9){
-		    System.out.println("Make general repairs on all of your properties, 25 for each house, 125 for each hotel");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Make general repairs on all of your properties, 25 for each house, 125 for each hotel");
 		    int repairs = this.getAddOns() * 25; 
 		    this.loseMoney(repairs);
 		}
 		else {
-		    System.out.println("Take a trip on the Reading(Reading Railroad)");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Take a trip on the Reading(Reading Railroad)");
 		    this.advanceTo(5);
 		    retInt = this.getPos();
 		}
 	    }
 	    else {
 		if (x == 14){
-		    System.out.println("Your building loan matures- Collect 150");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! Your building loan matures- Collect 150");
 		    this.cashIn(150);
 		}
 		else if (x == 13){
-		    System.out.println("You have been elected chairman pay 50 to each player");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! You have been elected chairman pay 50 to each player");
 		    for(Player asd: playerss){   // NOT SURE IF IT WORKS *********************
 			this.payOwner(asd, 50);
 		    }
 		    
 		}
 		else{ // x == 15
-		    System.out.println("You have won a crossword competition - Collect 100");
+		    JOptionPane.showMessageDialog(test.roll, "Chance! You have won a crossword competition - Collect 100");
 		    this.cashIn(100);
 		    
 		}
@@ -327,46 +377,45 @@ public class Player{
     
 
     public void communityInteract(ArrayList<Player> playerss){
-	System.out.println("Community Chest!");
 	int x = (int)(Math.random()*17);
 	if (x == 8){
-	    System.out.println("Income tax refund - Collect 20");
+	    JOptionPane.showMessageDialog(test.roll, "Income tax refund - Collect 20");
 	    this.cashIn(20);
 	}
 	else if (x < 8){
 	    if (x < 4){
 		if ( x == 0){
-		    System.out.println("Advance to Go");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Advance to Go");
 		    this.advanceTo(0);		 
 		}
 		else if (x == 1){
-		    System.out.println("Bank error in your favor - Collect 200!");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Bank error in your favor - Collect 200!");
 		    this.cashIn(200);
 		}
 		else if (x == 2){	  
-		    System.out.println("Doctor's fees - pay 50");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Doctor's fees - pay 50");
 		    this.loseMoney(50);
 		}
 		else{// x == 3
-		    System.out.println("From sale of stock, you gain 50");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! From sale of stock, you gain 50");
 		    this.cashIn(50);
 		}
 	    }
 	    else{ //x >= 4
 		if (x == 4){
-		    System.out.println("Get Out of Jail Free card");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Get Out of Jail Free card");
 		    card = true;			
 		}
 		else if (x == 5){
-		    System.out.println("Go to Jail");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Go to Jail");
 		    this.jailed();
 		}
 		else if (x == 6){
-		    System.out.println("Grand Opera Night - Collect 50 from each player for seats");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Grand Opera Night - Collect 50 from each player for seats");
 		    this.collect(playerss, 50);
 		}
 		else{  // x == 7
-		    System.out.println("Holiday Fund matures - Receive 100");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Holiday Fund matures - Receive 100");
 		    this.cashIn(100);
 		}
 	    }
@@ -374,37 +423,37 @@ public class Player{
 	else {  // x > 8
 	    if (x <= 12){
 		if (x == 9){
-		    System.out.println("It's your birthday - Collect 10 from each player");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! It's your birthday - Collect 10 from each player");
 		    this.collect(playerss, 10);
 		}
 		else if (x == 10){
-		    System.out.println("Life insurance matures - Collect 100");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Life insurance matures - Collect 100");
 		    this.cashIn(100);
 		}
 		else if (x == 11){
-			System.out.println("Pay hospital fees of 100");
+			JOptionPane.showMessageDialog(test.roll, "Community Chest! Pay hospital fees of 100");
 			this.loseMoney(100);
 		}
 		else{ //x == 12
-		    System.out.println("Pay school fees of 150");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Pay school fees of 150");
 		    this.loseMoney(150);
 		}		
 	    }
 	    else{  // x > 12
 		if (x == 13){
-		    System.out.println("Receive 25 in consultancy fees");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Receive 25 in consultancy fees");
 		    this.cashIn(25);
 		}
 		else if (x == 14){
-		    System.out.println("You are assessed for street repairs- 40 per house, 200 per hotel");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! You are assessed for street repairs- 40 per house, 200 per hotel");
 		    this.loseMoney(this.getAddOns() * 40);
 		}
 		else if (x == 15){
-		    System.out.println("Second place in beauty contest - Collect 10");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! Second place in beauty contest - Collect 10");
 		    this.cashIn(10);
 		}
 		else{ // x == 16
-		    System.out.println("You inherit 100");
+		    JOptionPane.showMessageDialog(test.roll, "Community Chest! You inherit 100");
 		    this.cashIn(100);
 		}
 	    }
@@ -426,7 +475,7 @@ public class Player{
     }
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    public int RRPay(Tile t){
+    public int RRPay(Tile t){ 
 	int retInt = 0;
 	int mult = 1;
 	if (t.getOwner().getPropertyOwned().contains(5))
@@ -447,7 +496,7 @@ public class Player{
 	    if (!p.getName().equals(this.getName())){
 		this.cashIn(i);
 		p.loseMoney(i);
-		System.out.println("Collected" + i + "from" + p.getName());
+		JOptionPane.showMessageDialog(test.roll, "Community Chest! Collected " + i + " from " + p.getName());
 	    }
 	}
     }
@@ -513,6 +562,9 @@ public class Player{
 		propertyOwned.contains(39));
     }
 
+	public static void main ( String[] args ) {
+		test = new Board();
+    }
 
 }// end class Player
     
