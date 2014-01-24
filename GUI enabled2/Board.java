@@ -744,7 +744,7 @@ public class Board extends JFrame{
 	    JOptionPane.showMessageDialog(null, "Property is maxed already");
 	}
 	else{
-	    String prompt = "1)1 House  2)2 Houses 3)3 Houses 4)4 Houses 5)A Hotel   ";
+	    String prompt = "1)1 House  2)2 Houses 3)3 Houses 4)4 Houses 5)A Hotel  ";
 	    prompt = prompt.substring(sub*11);
 	    
 	    int buildings = ref.getMoney() / board.get(prop).getHouseCost();
@@ -755,7 +755,7 @@ public class Board extends JFrame{
 	    else{
 		if(buildings >= 5){}
 		else{
-		    prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
+		    prompt = prompt.substring(0, prompt.length()-11*(5-buildings-sub));
 		}
 		int _how = Integer.parseInt(JOptionPane.showInputDialog(null, prompt));
 		ref.buyHouse(board.get(prop), _how - sub);
