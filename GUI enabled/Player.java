@@ -111,7 +111,6 @@ public class Player extends JFrame{
         pos = 10;
         inJail = true;
         turnsInJail = 0;
-		JOptionPane.showMessageDialog(test.roll, "Sent to jail! How unfortunate.");
     }
     
     public void jailBreak(){
@@ -225,7 +224,6 @@ public class Player extends JFrame{
     
     public void luxuryInteract(){
 	this.loseMoney(75);
-	JOptionPane.showMessageDialog(test.roll, "You lost $75 from Luxury Tax! How sad.");
     }
     
     public void incomeInteract(){
