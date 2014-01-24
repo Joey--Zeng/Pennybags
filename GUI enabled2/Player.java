@@ -23,7 +23,7 @@ public class Player extends JFrame{
 
     public Player () {
         name = "player 1";
-		shape = "circle";
+	shape = "circle";
         money = 1500;
         pos = 0;
         turnsInJail = 0;
@@ -108,10 +108,11 @@ public class Player extends JFrame{
     }
     
     public void jailed(){
+	test.buttons.get(getPos()).setIcon(null);
+	test.buttons.get(getPos()).setHorizontalTextPosition(SwingConstants.CENTER);
         pos = 10;
         inJail = true;
         turnsInJail = 0;
-		JOptionPane.showMessageDialog(test.roll, "Sent to jail! How unfortunate.");
     }
     
     public void jailBreak(){
@@ -225,7 +226,6 @@ public class Player extends JFrame{
     
     public void luxuryInteract(){
 	this.loseMoney(75);
-	JOptionPane.showMessageDialog(test.roll, "You lost $75 from Luxury Tax! How sad.");
     }
     
     public void incomeInteract(){
