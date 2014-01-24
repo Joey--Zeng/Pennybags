@@ -115,8 +115,17 @@ public class Board extends JFrame{
                 break;
 	    }
 		
-		int i = Integer.parseInt( JOptionPane.showInputDialog(roll, "Mortgage/de-house which property?" + propPrint(p.getPropertyOwned())) );
+		String ix = JOptionPane.showInputDialog(roll, "Mortgage/de-house which property?" + propPrint(p.getPropertyOwned()));
 	    
+		if (ix == null){
+			retBoo = false;
+			JOptionPane.showMessageDialog(roll, "You have lost the game.");
+			System.exit(0);
+            break;
+		}
+		
+		int i = Integer.parseInt( JOptionPane.showInputDialog(roll, "Mortgage/de-house which property?" + propPrint(p.getPropertyOwned())) );
+		
 	    if (p.getPropertyOwned().indexOf(i) > -1){
 		if (getTile(i).getAddOn() >4){	 
 		    action.append("Got " + p.sellHouse(getTile(i), 5));
