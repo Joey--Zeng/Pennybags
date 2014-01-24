@@ -454,6 +454,7 @@ public class Board extends JFrame{
 				  }
 				 });
 				 */
+				final JButton endTurn = new JButton("End Turn");
 				
 				//create space for aesthetic purpose
 				final JButton _roll = new JButton("Roll the dice!");
@@ -464,16 +465,19 @@ public class Board extends JFrame{
 				_roll.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 					    rooll();
+						_roll.setEnabled(false);
+						endTurn.setEnabled(true);
 					}
 				});
-
-				final JButton endTurn = new JButton("End Turn");
+	
 				endTurn.setVisible(true);
 				endTurn.setEnabled(false);
 				endTurn.setToolTipText("Ends your turn.");
 				endTurn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 					    endTurnn();
+						_roll.setEnabled(true);
+						endTurn.setEnabled(false);
 					}
 				});
 
@@ -506,7 +510,6 @@ public class Board extends JFrame{
 					public void actionPerformed(ActionEvent event) {
 						play();
 						newGame.setEnabled(false);
-						endTurn.setEnabled(true);
 						_roll.setEnabled(true);
 						deMort.setEnabled(true);
 						buyProp.setEnabled(true);
@@ -527,7 +530,7 @@ public class Board extends JFrame{
 		//CREATES TEXTFIELD & ACTION LIST
 		//========================================================================================================
 				//create player list
-				Font font = new Font("Tahoma", Font.BOLD, 12);
+				Font font = new Font("Tahoma", Font.PLAIN, 12);
 				listModel = new DefaultListModel(); // actual list
 				listModel.setSize(7);
 				
@@ -562,7 +565,7 @@ public class Board extends JFrame{
 				JScrollPane actionScroll = new JScrollPane(action);
 				actionScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				
-				//adds roll button
+				//adds buttons
 				panel.add(list);	
 				panel.add(actionScroll);
 		//========================================================================================================
