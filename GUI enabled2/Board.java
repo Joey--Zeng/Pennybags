@@ -441,6 +441,7 @@ public class Board extends JFrame{
 				//create panel
 				roll = new JPanel();
 				buttonPanel = new JPanel();
+				buttonPanel.setLayout(new GridLayout(2,2));
 				
 				//create roll button
 				/* testing function
@@ -486,6 +487,16 @@ public class Board extends JFrame{
 					}
 				});
 				
+				final JButton buyProp = new JButton("Buy Property");
+				buyProp.setVisible(true);
+				buyProp.setEnabled(false);
+				buyProp.setToolTipText("Buys a property.");
+				buyProp.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+					    //buyProperty();
+					}
+				});
+				
 				//create roll button
 				final JButton newGame = new JButton("Start Game!");
 				//newGame.setPreferredSize(new Dimension(100,100));
@@ -498,6 +509,7 @@ public class Board extends JFrame{
 						endTurn.setEnabled(true);
 						_roll.setEnabled(true);
 						deMort.setEnabled(true);
+						buyProp.setEnabled(true);
 					}
 				});
 				
@@ -505,6 +517,7 @@ public class Board extends JFrame{
 				panel.add(newGame);   
 				buttonPanel.add(_roll);
 				buttonPanel.add(endTurn);
+				buttonPanel.add(buyProp);
 				buttonPanel.add(deMort);
 				panel.add(buttonPanel);
 				panel.add(roll);
@@ -724,7 +737,7 @@ public class Board extends JFrame{
 				    JOptionPane.showMessageDialog(null, "Property is maxed already");
 				}
 				else{
-				    String prompt = "1)1 house  2)2 houses 3)3 houses 4)4 houses 5)Hotel   ";
+				    String prompt = "1)1 House  2)2 Houses 3)3 Houses 4)4 Houses 5)A Hotel   ";
 				    prompt = prompt.substring(sub*11);
 
 				    int buildings = ref.getMoney() / board.get(prop).getHouseCost();
@@ -735,9 +748,8 @@ public class Board extends JFrame{
 				    else{
 					prompt = prompt.substring(0, prompt.length()-11*(5-buildings));
 				    }
-				    JOptionPane.showMessageDialog(null, prompt);
-				    int how = Keyboard.readInt() - sub;
-				    ref.buyHouse(board.get(prop), how);
+				    int _how = Integer.parseInt(JOptionPane.showInputDialog(null, prompt));
+				    ref.buyHouse(board.get(prop), _how);
 				}
 			    }		       			
 			    }// end if input = yes
