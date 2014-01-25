@@ -8,7 +8,7 @@ Hyunwoo Jeung<br>
 Instructions
 ===========
 1. Pull this repository.<br><br>
-2. Compile all files in your local repo.<br><br>
+2. Compile all files in GUI enabled2 in your local repo.<br><br>
 3. Run Player.java<br>
    ($ java Player)<br><br>
 4. Simply press the Start Game button and
